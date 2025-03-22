@@ -18,7 +18,7 @@ This is a learning project and currently there are no plans to make full fledged
 
 ### Class Structure:
 
-<img src = "Content/Documentation/DoctrinaEngineClassStructure.svg">
+<img src = "Content/Documentation/ClassStructure.svg">
 
 <p align = "center"> <b> (Class structure is subject to change as the engine is worked on) </b> </p>
 
