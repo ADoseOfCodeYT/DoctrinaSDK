@@ -18,7 +18,7 @@ This is a learning project and currently there are no plans to make full fledged
 
 ### Class Structure:
 
-<img src = "Content/Documentation/ClassStructure.svg" size = 1000px>
+<img src = "Content/Documentation/ClassStructure.png">
 
 <p align = "center"> <b> (Class structure is subject to change) </b> </p>
 
