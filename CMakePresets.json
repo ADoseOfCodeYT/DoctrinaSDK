@@ -2,24 +2,22 @@
     "version": 3,
     "configurePresets": 
     [
-        {
-            "name": "Windows-Base",
-            "hidden": true,
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/BUILD/${presetName}",
-            "installDir": "${sourceDir}/out/install/${presetName}",
-            "cacheVariables": 
-            {
-                "CMAKE_C_COMPILER": "cl.exe",
-                "CMAKE_CXX_COMPILER": "cl.exe"
-            },
-            "condition": 
-            {
-                "type": "equals",
-                "lhs": "${hostSystemName}",
-                "rhs": "Windows"
-            }
+      {
+        "name": "Windows-Base",
+        "hidden": true,
+        "generator": "Visual Studio 17 2022",
+        "binaryDir": "${sourceDir}/BUILD/${presetName}",
+        "installDir": "${sourceDir}/BUILD/install/${presetName}",
+        "cacheVariables": {
+          "CMAKE_C_COMPILER": "cl.exe",
+          "CMAKE_CXX_COMPILER": "cl.exe"
         },
+        "condition": {
+          "type": "equals",
+          "lhs": "${hostSystemName}",
+          "rhs": "Windows"
+        }
+      },
         {
             "name": "x64-Debug",
             "displayName": "Debug",

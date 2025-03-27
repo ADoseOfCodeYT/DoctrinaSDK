@@ -13,8 +13,6 @@ project ("DoctrinaSDK")
 add_subdirectory ("DoctrinaEngine")
 add_subdirectory ("Editor")
 
-target_include_directories(Editor PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/")
-
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)

@@ -7,7 +7,11 @@
 # |_____/ \____/ \_____|  |_|  |_|  \_\_____|_| \_/_/    \_\ |______|_| \_|\_____|_____|_| \_|______|
                                                                                                     
                                                                                 
-add_library(DoctrinaEngine "DoctrinaEngine.cpp" "DoctrinaEngine.h" )
+add_library(DoctrinaEngine STATIC
+    "Core/Private/DoctrinaEngine.cpp"
+    "Core/Public/DoctrinaEngine.h")
+
+target_include_directories(DoctrinaEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET DoctrinaEngine PROPERTY CXX_STANDARD 20)
