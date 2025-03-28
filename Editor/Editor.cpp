@@ -2,6 +2,8 @@
 
 int main()
 {
-	Engine::SaySomething();
+	de::Application app;
+
+	app.Initialize();
 	return 0;
 }
