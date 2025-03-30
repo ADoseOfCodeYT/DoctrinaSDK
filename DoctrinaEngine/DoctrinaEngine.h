@@ -4,7 +4,7 @@
 // DoctrinaEngine.h
 // Exposes all public engine features for the engine's implementing application
 
-#include "Core/Public/deVersion.h"
-#include "Application/Public/deApplication.h"
+#include "Source/Core/Public/deVersion.h"
+#include "Source/Application/Public/deApplication.h"
 
 #endif // !_DOCTRINAENGINE_H_

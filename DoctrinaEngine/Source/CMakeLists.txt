@@ -7,7 +7,7 @@
 # |_____/ \____/ \_____|  |_|  |_|  \_\_____|_| \_/_/    \_\ |______|_| \_|\_____|_____|_| \_|______|
                                                                                                     
                                                                                 
-add_library(DoctrinaEngine STATIC  "DoctrinaEngine.h" "Application/Private/deApplication.cpp" "Application/Public/deApplication.h" "Core/Public/deVersion.h")
+add_library(DoctrinaEngine STATIC  "../DoctrinaEngine.h" "Application/Private/deApplication.cpp" "Application/Public/deApplication.h" "Core/Public/deVersion.h")
 
 target_include_directories(DoctrinaEngine PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/")
 
