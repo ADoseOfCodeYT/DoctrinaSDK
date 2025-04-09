@@ -1,16 +1,18 @@
 #include "Application/Public/deApplication.h"
 #include "Core/Public/deVersion.h"
 
+#include <iostream>
+
 namespace de
 {
-	Application::Application(LPCSTR name, int screenwidth, int screenheight)
+	Application::Application(LPCSTR name, int screenWidth, int screenHeight)
 	{
 		Name = name;
-		ScreenWidth = screenwidth;
-		ScreenHeight = screenheight;
+		ScreenWidth = screenWidth;
+		ScreenHeight = screenHeight;
 
-		m_HINSTANCE = NULL;
-		m_HWND = NULL;
+		m_HINSTANCE = nullptr;
+		m_HWND = nullptr;
 	}
 
 	Application::~Application()
@@ -22,11 +24,22 @@ namespace de
 	{
 		if (Initialised)
 		{
+			std::cout << "[de::Application] Already Initialised" << std::endl;
+
 			return;
 		}
-		Initialised = true;
-		InitializeWindows();
 
+		bool result = InitializeWindows();
+		if (!result)
+		{
+			std::cout << "[de::Application] FAILED : InitializeWindows()" << std::endl;
+			Initialised = false;
+
+			return;
+		}
+
+		std::cout << "[de::Application] Initialised" << std::endl;
+		Initialised = true;
 	}
 
 	void Application::Shutdown()
@@ -79,6 +92,11 @@ namespace de
 		return;
 	}
 
+	HWND Application::GetWindow()
+	{
+		return m_HWND;
+	}
+
 	LRESULT CALLBACK Application::MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 	{
 		return DefWindowProc(hwnd, umsg, wparam, lparam);
@@ -99,40 +117,40 @@ namespace de
 		return true;
 	}
 
-	void Application::InitializeWindows()
+	bool Application::InitializeWindows()
 	{
-		WNDCLASSEX WC;
+		WNDCLASSEX wcClassEx;
 		DEVMODE DMScreenSettings;
-		int posx, posy;
-		int screenwidth, screenheight;
+		int PosX, PosY;
+		int screenWidth, screenHeight;
 
 		m_HINSTANCE = GetModuleHandle(NULL);
 
-		WC.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
-		WC.lpfnWndProc = WndProc;
-		WC.cbClsExtra = 0;
-		WC.cbWndExtra = 0;
-		WC.hInstance = m_HINSTANCE;
-		WC.hIcon = LoadIcon(NULL, IDI_WINLOGO);
-		WC.hIconSm = WC.hIcon;
-		WC.hCursor = LoadCursor(NULL, IDC_ARROW);
-		WC.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-		WC.lpszMenuName = NULL;
-		WC.lpszClassName = Name;
-		WC.cbSize = sizeof(WNDCLASSEX);
+		wcClassEx.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
+		wcClassEx.lpfnWndProc = WndProc;
+		wcClassEx.cbClsExtra = 0;
+		wcClassEx.cbWndExtra = 0;
+		wcClassEx.hInstance = m_HINSTANCE;
+		wcClassEx.hIcon = LoadIcon(NULL, IDI_WINLOGO);
+		wcClassEx.hIconSm = wcClassEx.hIcon;
+		wcClassEx.hCursor = LoadCursor(NULL, IDC_ARROW);
+		wcClassEx.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
+		wcClassEx.lpszMenuName = NULL;
+		wcClassEx.lpszClassName = Name;
+		wcClassEx.cbSize = sizeof(WNDCLASSEX);
 
-		RegisterClassEx(&WC);
+		RegisterClassEx(&wcClassEx);
 
-		screenwidth = GetSystemMetrics(SM_CXSCREEN);
-		screenheight = GetSystemMetrics(SM_CYSCREEN);
+		screenWidth = GetSystemMetrics(SM_CXSCREEN);
+		screenHeight = GetSystemMetrics(SM_CYSCREEN);
 
-		screenwidth = ScreenWidth;
-		screenheight = ScreenHeight;
+		screenWidth = ScreenWidth;
+		screenHeight = ScreenHeight;
 
-		posx = (GetSystemMetrics(SM_CXSCREEN) - screenwidth) / 2;
-		posy = (GetSystemMetrics(SM_CYSCREEN) - screenheight) / 2;
+		PosX = (GetSystemMetrics(SM_CXSCREEN) - screenWidth) / 2;
+		PosY = (GetSystemMetrics(SM_CYSCREEN) - screenHeight) / 2;
 
-		m_HWND = CreateWindowEx(WS_EX_APPWINDOW, Name, Name, WS_OVERLAPPEDWINDOW, posx, posy, screenwidth, screenheight, NULL, NULL, m_HINSTANCE, NULL);
+		m_HWND = CreateWindowEx(WS_EX_APPWINDOW, Name, Name, WS_OVERLAPPEDWINDOW, PosX, PosY, screenWidth, screenHeight, NULL, NULL, m_HINSTANCE, NULL);
 
 		ShowWindow(m_HWND, SW_SHOW);
 		SetForegroundWindow(m_HWND);
@@ -140,7 +158,7 @@ namespace de
 
 		ShowCursor(true);
 
-		return;
+		return true;
 	}
 
 	void Application::ShutdownWindows()
@@ -157,6 +175,8 @@ namespace de
 
 		return;
 	}
+
+	
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam)

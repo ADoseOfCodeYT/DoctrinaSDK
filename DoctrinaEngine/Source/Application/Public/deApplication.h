@@ -11,7 +11,7 @@ namespace de
 	class Application
 	{
 	public:
-		Application(LPCSTR name, int screenwidth, int screenheight);
+		Application(LPCSTR name, int screenWidth, int screenHeight);
 		~Application();
 
 		void Initialize();
@@ -29,11 +29,13 @@ namespace de
 
 		bool FrameIndependentUpdate = false;
 		bool Initialised = false;
+		bool VSync = true; // TODO: MOVE THIS TO A DIFFERENT CLASS AND MAKE IT CHANGEABLE WHILE APP IS RUNNING
+		bool Fullscreen = false; // TODO: MOVE THIS TO A DIFFERENT CLASS AND MAKE IT CHANGEABLE WHILE APP IS RUNNING
 
 	private:
 		bool FixedUpdate();
 		bool Update(float dt);
-		void InitializeWindows();
+		bool InitializeWindows();
 		void ShutdownWindows();
 
 	private:

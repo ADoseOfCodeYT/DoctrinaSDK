@@ -10,7 +10,7 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("DoctrinaSDK")
 
-add_subdirectory ("DoctrinaEngine/Source")
+add_subdirectory ("DoctrinaEngine")
 add_subdirectory ("Editor")
 
 #DELETE THE OUT FOLDER AFTER CHANGING THIS VARIABLE
