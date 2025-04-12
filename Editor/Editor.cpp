@@ -16,5 +16,6 @@ int main()
 	}
 
 	app.Shutdown();
+	rhi.Shutdown();
 	return 0;
 }

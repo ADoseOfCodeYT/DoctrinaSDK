@@ -31,8 +31,12 @@ namespace de
 		int GetSwapChainNumerator();
 		int GetSwapChainDenominator();
 
+		void BeginFrame();
+		void PresentFrame();
+
 	public:
 		bool Initialised = false;
+
 
 		char VideoCardDesc[128];
 		int VideoCardMemory;

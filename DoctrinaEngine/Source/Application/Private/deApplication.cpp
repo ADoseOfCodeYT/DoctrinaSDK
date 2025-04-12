@@ -46,6 +46,7 @@ namespace de
 	{
 		ShutdownWindows();
 
+		std::cout << "[de::Application] Shutdown" << std::endl;
 		return;
 	}
 
