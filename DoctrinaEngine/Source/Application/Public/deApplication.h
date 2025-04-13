@@ -6,15 +6,18 @@
 #include <windows.h>
 #include <iostream>
 
+#include "Renderer/Public/deRenderer.h"
+
 namespace de
 {
 	class Application
 	{
 	public:
-		Application(LPCSTR name, int screenWidth, int screenHeight);
+
+		Application(LPCSTR name);
 		~Application();
 
-		void Initialize();
+		void Initialize(int screenWidth, int screenHeight);
 		void Shutdown();
 		void Run();
 
@@ -22,7 +25,10 @@ namespace de
 
 		LRESULT CALLBACK MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam);
 
+
+
 	public:
+
 		LPCSTR Name;
 
 		int ScreenWidth, ScreenHeight;
@@ -33,6 +39,7 @@ namespace de
 		bool Fullscreen = false; // TODO: MOVE THIS TO A DIFFERENT CLASS AND MAKE IT CHANGEABLE WHILE APP IS RUNNING
 
 	private:
+
 		bool FixedUpdate();
 		bool Update(float dt);
 		bool InitializeWindows();
@@ -42,6 +49,8 @@ namespace de
 
 		HINSTANCE m_HINSTANCE;
 		HWND m_HWND;
+
+		Renderer m_Renderer;
 	};
 }
 

@@ -2,13 +2,9 @@
 
 int main()
 {
-	de::Application app("Doctrina Editor", 1280, 720);
+	de::Application app("Doctrina Editor");
 
-	app.Initialize();
-
-	de::RHI_D3D11 rhi;
-
-	rhi.Initialize(1280, 720, app.GetWindow(), false, 1000.0f, 0.3f);
+	app.Initialize(1280, 720);
 
 	if (app.Initialised)
 	{
@@ -16,6 +12,5 @@ int main()
 	}
 
 	app.Shutdown();
-	rhi.Shutdown();
 	return 0;
 }

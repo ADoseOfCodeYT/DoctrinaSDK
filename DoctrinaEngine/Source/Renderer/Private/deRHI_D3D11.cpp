@@ -1,4 +1,4 @@
-#include "Renderer/Public/deRHI_D3D11.h"
+#include "Renderer/Private/deRHI_D3D11.h"
 
 #include <iostream>
 #include <string>
@@ -495,10 +495,12 @@ namespace de
 	{
 		float color[4];
 
-		color[0] = 227.0f;
-		color[1] = 7.0f;
-		color[2] = 205.0f;
+		color[0] = 255.0f;
+		color[1] = 0.0f;
+		color[2] = 255.0f;
 		color[3] = 1.0f;
+
+		std::cout << "[de::RHI_D3D11] BeginFrame" << std::endl;
 
 		m_DeviceContext->ClearRenderTargetView(m_RenderTargetView, color);
 
@@ -509,6 +511,8 @@ namespace de
 
 	void RHI_D3D11::PresentFrame()
 	{
+		std::cout << "[de::RHI_D3D11] PresentFrame" << std::endl;
+
 		// TODO : ADD VSYNC TOGGLE
 		m_SwapChain->Present(1, 0); // vsync
 

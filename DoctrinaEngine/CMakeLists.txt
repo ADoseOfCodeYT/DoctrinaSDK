@@ -8,10 +8,8 @@
                                                                                                     
 file(GLOB_RECURSE DOCTRINAENGINE_SOURCE_CPP CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cpp")
 file(GLOB_RECURSE DOCTRINAENGINE_SOURCE_H CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h")
-file(GLOB_RECURSE DOCTRINAENGINE_HEADER CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/DoctrinaEngine.h")
-
                                                                             
-add_library(DoctrinaEngine STATIC  ${DOCTRINAENGINE_SOURCE_CPP} ${DOCTRINAENGINE_SOURCE_H} ${DOCTRINAENGINE_HEADER})
+add_library(DoctrinaEngine STATIC  ${DOCTRINAENGINE_SOURCE_CPP} ${DOCTRINAENGINE_SOURCE_H} "DoctrinaEngine.h")
 
 target_include_directories(DoctrinaEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Source/")
 

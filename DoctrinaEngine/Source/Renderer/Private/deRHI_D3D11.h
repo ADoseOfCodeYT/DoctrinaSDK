@@ -15,6 +15,7 @@ namespace de
 	class RHI_D3D11
 	{
 	public:
+
 		RHI_D3D11();
 		~RHI_D3D11();
 
@@ -35,12 +36,14 @@ namespace de
 		void PresentFrame();
 
 	public:
+
 		bool Initialised = false;
 
 
 		char VideoCardDesc[128];
 		int VideoCardMemory;
 	private:
+
 		IDXGISwapChain* m_SwapChain;
 
 		ID3D11Device* m_Device;

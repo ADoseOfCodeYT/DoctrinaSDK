@@ -5,11 +5,10 @@
 
 namespace de
 {
-	Application::Application(LPCSTR name, int screenWidth, int screenHeight)
+	Application::Application(LPCSTR name)
 	{
 		Name = name;
-		ScreenWidth = screenWidth;
-		ScreenHeight = screenHeight;
+		
 
 		m_HINSTANCE = nullptr;
 		m_HWND = nullptr;
@@ -20,8 +19,11 @@ namespace de
 
 	}
 
-	void Application::Initialize()
+	void Application::Initialize(int screenWidth, int screenHeight)
 	{
+		ScreenWidth = screenWidth;
+		ScreenHeight = screenHeight;
+
 		if (Initialised)
 		{
 			std::cout << "[de::Application] Already Initialised" << std::endl;
@@ -38,6 +40,8 @@ namespace de
 			return;
 		}
 
+		m_Renderer.Initialize(screenWidth, screenHeight, GetWindow(), false, 1000.0f, 0.3f);
+
 		std::cout << "[de::Application] Initialised" << std::endl;
 		Initialised = true;
 	}
@@ -45,6 +49,7 @@ namespace de
 	void Application::Shutdown()
 	{
 		ShutdownWindows();
+		m_Renderer.Shutdown();
 
 		std::cout << "[de::Application] Shutdown" << std::endl;
 		return;
@@ -107,6 +112,10 @@ namespace de
 	{
 		bool result;
 
+		if (m_Renderer.Initialised)
+		{
+			m_Renderer.Render();
+		}
 
 		return true;
 	}

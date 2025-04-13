@@ -8,6 +8,6 @@
 
 #include "Source/Core/Public/deVersion.h"
 
-#include "Source/Renderer/Public/deRHI_D3D11.h"
+#include "Source/Renderer/Public/deRenderer.h"
 
 #endif // !_DOCTRINAENGINE_H_
