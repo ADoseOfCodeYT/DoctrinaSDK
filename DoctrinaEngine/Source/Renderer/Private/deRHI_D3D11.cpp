@@ -28,18 +28,13 @@ namespace de
 
 		m_Viewport = {};
 
-		m_AlphaEnableBlendingState = nullptr;
-		m_AlphaDisableBlendingState = nullptr;
+		m_AlphaBlendingState = nullptr;
+		m_AlphaDisabledBlendingState = nullptr;
 
 		m_Numerator = 0;
 		m_Denominator = 0;
 
 		VideoCardMemory = 0;
-	}
-
-	RHI_D3D11::~RHI_D3D11()
-	{
-
 	}
 
 	void RHI_D3D11::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen, float screenDepth, float screenNear)
@@ -397,7 +392,7 @@ namespace de
 		blendStateDescription.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 		blendStateDescription.RenderTarget[0].RenderTargetWriteMask = 0x0f;
 
-		result = m_Device->CreateBlendState(&blendStateDescription, &m_AlphaEnableBlendingState);
+		result = m_Device->CreateBlendState(&blendStateDescription, &m_AlphaBlendingState);
 		if (FAILED(result))
 		{
 			Console::Post("[de::RHI_D3D11] FAILED : CreateBlendState()", Console::LogLevel::ExtremeError);
@@ -408,7 +403,7 @@ namespace de
 
 		blendStateDescription.RenderTarget[0].BlendEnable = FALSE;
 
-		result = m_Device->CreateBlendState(&blendStateDescription, &m_AlphaDisableBlendingState);
+		result = m_Device->CreateBlendState(&blendStateDescription, &m_AlphaDisabledBlendingState);
 		if (FAILED(result))
 		{
 			Console::Post("[de::RHI_D3D11] FAILED : CreateBlendState()", Console::LogLevel::ExtremeError);
@@ -449,16 +444,16 @@ namespace de
 			m_RasterState = nullptr;
 		}
 
-		if (m_AlphaEnableBlendingState)
+		if (m_AlphaBlendingState)
 		{
-			m_AlphaEnableBlendingState->Release();
-			m_AlphaEnableBlendingState = nullptr;
+			m_AlphaBlendingState->Release();
+			m_AlphaBlendingState = nullptr;
 		}
 
-		if (m_AlphaDisableBlendingState)
+		if (m_AlphaDisabledBlendingState)
 		{
-			m_AlphaDisableBlendingState->Release();
-			m_AlphaDisableBlendingState = nullptr;
+			m_AlphaDisabledBlendingState->Release();
+			m_AlphaDisabledBlendingState = nullptr;
 		}
 
 		if (m_DepthStencilView)
@@ -490,16 +485,6 @@ namespace de
 		return;
 	}
 
-	ID3D11Device* RHI_D3D11::GetDevice()
-	{
-		return m_Device;
-	}
-
-	ID3D11DeviceContext* RHI_D3D11::GetDeviceContext()
-	{
-		return m_DeviceContext;
-	}
-
 	void RHI_D3D11::BeginFrame()
 	{
 		float color[4];
@@ -524,4 +509,91 @@ namespace de
 
 		return;
 	}
+
+	ID3D11Device* RHI_D3D11::GetDevice()
+	{
+		return m_Device;
+	}
+
+	ID3D11DeviceContext* RHI_D3D11::GetDeviceContext()
+	{
+		return m_DeviceContext;
+	}
+
+	void RHI_D3D11::GetSwapChainNumerator(int& numerator)
+	{
+		numerator = m_Numerator;
+		return;
+	}
+
+	void RHI_D3D11::GetSwapChainDenominator(int& denominator)
+	{
+		denominator = m_Denominator;
+		return;
+	}
+
+	void RHI_D3D11::EnableZBuffer()
+	{
+		m_DeviceContext->OMSetDepthStencilState(m_DepthStencilState, 1);
+		return;
+	}
+
+	void RHI_D3D11::DisableZBuffer()
+	{
+		m_DeviceContext->OMSetDepthStencilState(m_DepthDisabledStencilState, 1);
+		return;
+	}
+
+	void RHI_D3D11::EnableAlphaBlending()
+	{
+		float blendFactor[4];
+
+
+		// Setup the blend factor.
+		blendFactor[0] = 0.0f;
+		blendFactor[1] = 0.0f;
+		blendFactor[2] = 0.0f;
+		blendFactor[3] = 0.0f;
+
+		// Turn on the alpha blending.
+		m_DeviceContext->OMSetBlendState(m_AlphaBlendingState, blendFactor, 0xffffffff);
+
+		return;
+	}
+
+	void RHI_D3D11::DisableAlphaBlending()
+	{
+		float blendFactor[4];
+
+
+		// Setup the blend factor.
+		blendFactor[0] = 0.0f;
+		blendFactor[1] = 0.0f;
+		blendFactor[2] = 0.0f;
+		blendFactor[3] = 0.0f;
+
+		// Turn on the alpha blending.
+		m_DeviceContext->OMSetBlendState(m_AlphaDisabledBlendingState, blendFactor, 0xffffffff);
+
+		return;
+	}
+
+	void RHI_D3D11::GetProjectionMatrix(XMMATRIX& projectionMatrix)
+	{
+		projectionMatrix = m_ProjectionMatrix;
+		return;
+	}
+
+	void RHI_D3D11::GetWorldMatrix(XMMATRIX& worldMatrix)
+	{
+		worldMatrix = m_WorldMatrix;
+		return;
+	}
+
+	void RHI_D3D11::GetOrthoMatrix(XMMATRIX& orthoMatrix)
+	{
+		orthoMatrix = m_OrthoMatrix;
+		return;
+	}
+	
 }

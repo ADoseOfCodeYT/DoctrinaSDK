@@ -17,23 +17,29 @@ namespace de
 	public:
 
 		RHI_D3D11();
-		~RHI_D3D11();
+		virtual ~RHI_D3D11() = default;
 
 		void Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullscreen, float screenDepth, float screenNear);
 		void Shutdown();
 
+		void BeginFrame();
+		void FinishFrame();
+
 		ID3D11Device* GetDevice();
 		ID3D11DeviceContext* GetDeviceContext();
 
+		void GetSwapChainNumerator(int& numerator);
+		void GetSwapChainDenominator(int& denominator);
+
+		void EnableZBuffer();
+		void DisableZBuffer();
+
+		void EnableAlphaBlending();
+		void DisableAlphaBlending();
+
 		void GetProjectionMatrix(XMMATRIX& projectionMatrix);
 		void GetWorldMatrix(XMMATRIX& worldMatrix);
-		void GetOrthoMatrix(XMMATRIX& orthMatrix);
-
-		int GetSwapChainNumerator();
-		int GetSwapChainDenominator();
-
-		void BeginFrame();
-		void FinishFrame();
+		void GetOrthoMatrix(XMMATRIX& orthoMatrix);
 
 	public:
 
@@ -63,8 +69,8 @@ namespace de
 
 		D3D11_VIEWPORT m_Viewport;
 
-		ID3D11BlendState* m_AlphaEnableBlendingState;
-		ID3D11BlendState* m_AlphaDisableBlendingState;
+		ID3D11BlendState* m_AlphaBlendingState;
+		ID3D11BlendState* m_AlphaDisabledBlendingState;
 
 		int m_Numerator;
 		int m_Denominator;

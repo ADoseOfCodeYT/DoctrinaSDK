@@ -1,15 +1,12 @@
 #include "Renderer/Public/deRenderer.h"
 
+#include "Tools/Public/deConsole.h"
+
 namespace de
 {
 	Renderer::Renderer()
 	{
 		
-	}
-
-	Renderer::~Renderer()
-	{
-
 	}
 
 	void Renderer::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen, float screenDepth, float screenNear)
@@ -18,6 +15,8 @@ namespace de
 
 		if (m_RHI.Initialised)
 		{
+			Console::Post("[de::Renderer] Initialised", Console::LogLevel::Default);
+
 			Initialised = true;
 		}
 	}
@@ -25,13 +24,20 @@ namespace de
 	void Renderer::Shutdown()
 	{
 		m_RHI.Shutdown();
+		Console::Post("[de::Renderer] Shutdown", Console::LogLevel::Default);
 	}
 
 	bool Renderer::Render()
 	{
 		m_RHI.BeginFrame();
 
-		//Rendering code
+		//3D Rendering
+
+		m_RHI.DisableZBuffer();
+
+		//2D Rendering
+
+		m_RHI.EnableZBuffer();
 
 		m_RHI.FinishFrame();
 

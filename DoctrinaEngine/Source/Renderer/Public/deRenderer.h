@@ -10,7 +10,7 @@ namespace de
 	public:
 
 		Renderer();
-		~Renderer();
+		virtual ~Renderer() = default;
 
 		void Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen, float screenDepth, float screenNear);
 		void Shutdown();
