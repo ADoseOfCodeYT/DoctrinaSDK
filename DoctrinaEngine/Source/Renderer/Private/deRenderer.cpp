@@ -33,7 +33,7 @@ namespace de
 
 		//Rendering code
 
-		m_RHI.PresentFrame();
+		m_RHI.FinishFrame();
 
 		return true;
 	}

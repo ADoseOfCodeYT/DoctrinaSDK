@@ -4,7 +4,6 @@
 #define WIN32_LEAN_AND_MEAN
 
 #include <windows.h>
-#include <iostream>
 
 #include "Renderer/Public/deRenderer.h"
 
@@ -15,7 +14,7 @@ namespace de
 	public:
 
 		Application(LPCSTR name);
-		~Application();
+		virtual ~Application() = default;
 
 		void Initialize(int screenWidth, int screenHeight);
 		void Shutdown();
@@ -33,7 +32,6 @@ namespace de
 
 		int ScreenWidth, ScreenHeight;
 
-		bool FrameIndependentUpdate = false;
 		bool Initialised = false;
 		bool VSync = true; // TODO: MOVE THIS TO A DIFFERENT CLASS AND MAKE IT CHANGEABLE WHILE APP IS RUNNING
 		bool Fullscreen = false; // TODO: MOVE THIS TO A DIFFERENT CLASS AND MAKE IT CHANGEABLE WHILE APP IS RUNNING

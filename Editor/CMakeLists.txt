@@ -7,7 +7,7 @@
 # |______|_____/_____|  |_|  \____/|_|  \_\
                                                                
 
-add_executable (Editor "Editor.cpp" "Editor.h"  )
+add_executable (Editor "Source/Editor.cpp" "Source/Editor.h"  )
 
 target_link_libraries(Editor PRIVATE DoctrinaEngine)
 

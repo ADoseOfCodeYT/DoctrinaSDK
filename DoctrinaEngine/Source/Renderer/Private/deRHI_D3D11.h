@@ -33,7 +33,7 @@ namespace de
 		int GetSwapChainDenominator();
 
 		void BeginFrame();
-		void PresentFrame();
+		void FinishFrame();
 
 	public:
 

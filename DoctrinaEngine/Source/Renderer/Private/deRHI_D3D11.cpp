@@ -1,7 +1,9 @@
 #include "Renderer/Private/deRHI_D3D11.h"
 
-#include <iostream>
 #include <string>
+
+#include "Tools/Public/deConsole.h"
+
 
 namespace de
 {
@@ -72,7 +74,8 @@ namespace de
 		result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&dxFactory);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : CreateDXGIFactory()" << std::endl;
+
+			Console::Post("[de::RHI_D3D11] FAILED : CreateDXGIFactory()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -81,7 +84,8 @@ namespace de
 		result = dxFactory->EnumAdapters(0, &dxAdapter);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : EnumAdapters()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : EnumAdapters()", Console::LogLevel::ExtremeError);
+
 
 			Initialised = false;
 			return;
@@ -90,7 +94,7 @@ namespace de
 		result = dxAdapter->EnumOutputs(0, &dxAdapterOutput);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : EnumOutputs()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : EnumOutputs()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -99,7 +103,7 @@ namespace de
 		result = dxAdapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, NULL);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : GetDisplayModeList()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : GetDisplayModeList()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -108,7 +112,7 @@ namespace de
 		displayModeList = new DXGI_MODE_DESC[numModes];
 		if (!displayModeList)
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : new DXGI_MODE_DESC" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : new DXGI_MODE_DESC", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -117,7 +121,7 @@ namespace de
 		result = dxAdapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModeList);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : GetDisplayModeList()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : GetDisplayModeList()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -138,7 +142,8 @@ namespace de
 		result = dxAdapter->GetDesc(&adapterDesc);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : GetDesc()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : GetDesc()", Console::LogLevel::ExtremeError);
+
 
 			Initialised = false;
 			return;
@@ -149,7 +154,8 @@ namespace de
 		error = wcstombs_s(&stringLength, VideoCardDesc, 128, adapterDesc.Description, 128);
 		if (error != 0)
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : wcstombs_s()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : wcstomb_s()", Console::LogLevel::ExtremeError);
+
 
 			Initialised = false;
 			return;
@@ -208,7 +214,8 @@ namespace de
 		result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &swapChainDesc, &m_SwapChain, &m_Device, nullptr, &m_DeviceContext);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : D3D11CreateDeviceAndSwapChain()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : D3D11CreateDeviceAndSwapChain()", Console::LogLevel::ExtremeError);
+
 
 			Initialised = false;
 			return;
@@ -217,7 +224,8 @@ namespace de
 		result = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : GetBuffer()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : GetBuffer()", Console::LogLevel::ExtremeError);
+
 
 			Initialised = false;
 			return;
@@ -226,7 +234,8 @@ namespace de
 		result = m_Device->CreateRenderTargetView(backBufferPtr, nullptr, &m_RenderTargetView);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : CreateRenderTargetView" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : CreateRenderTargetView()", Console::LogLevel::ExtremeError);
+
 
 			Initialised = false;
 			return;
@@ -252,7 +261,7 @@ namespace de
 		result = m_Device->CreateTexture2D(&depthBufferDesc, nullptr, &m_DepthStencilBuffer);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : CreateTexture2D()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : CreateTexture2D()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -284,7 +293,7 @@ namespace de
 		result = m_Device->CreateDepthStencilState(&depthStencilDesc, &m_DepthStencilState);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : CreateDepthStencilState()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : CreateDepthStencilState()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -302,7 +311,7 @@ namespace de
 		result = m_Device->CreateDepthStencilView(m_DepthStencilBuffer, &depthStencilViewDesc, &m_DepthStencilView);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : CreateDepthStencilView()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : CreateDepthStencilView()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -324,7 +333,7 @@ namespace de
 		result = m_Device->CreateRasterizerState(&rasterDesc, &m_RasterState);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : CreateTexture2D()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : CreateTexture2D()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -371,7 +380,7 @@ namespace de
 		result = m_Device->CreateDepthStencilState(&depthDisabledStencilDesc, &m_DepthDisabledStencilState);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : CreateDepthStencilState()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : CreateDepthStencilState()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -391,7 +400,7 @@ namespace de
 		result = m_Device->CreateBlendState(&blendStateDescription, &m_AlphaEnableBlendingState);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : CreateBlendState()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : CreateBlendState()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -402,13 +411,13 @@ namespace de
 		result = m_Device->CreateBlendState(&blendStateDescription, &m_AlphaDisableBlendingState);
 		if (FAILED(result))
 		{
-			std::cout << "[de::RHI_D3D11] FAILED : CreateBlendState()" << std::endl;
+			Console::Post("[de::RHI_D3D11] FAILED : CreateBlendState()", Console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
 		}
 
-		std::cout << "[de::RHI_D3D11] Initialised" << std::endl;
+		Console::Post("[de::RHI_D3D11] Initialised", Console::LogLevel::Default);
 
 		Initialised = true;
 	}
@@ -476,7 +485,7 @@ namespace de
 			m_RenderTargetView = nullptr;
 		}
 
-		std::cout << "[de::RHI_D3D11] Shutdown" << std::endl;
+		Console::Post("[de::RHI_D3D11] Shutdown", Console::LogLevel::Default);
 
 		return;
 	}
@@ -500,8 +509,6 @@ namespace de
 		color[2] = 255.0f;
 		color[3] = 1.0f;
 
-		std::cout << "[de::RHI_D3D11] BeginFrame" << std::endl;
-
 		m_DeviceContext->ClearRenderTargetView(m_RenderTargetView, color);
 
 		m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
@@ -509,9 +516,8 @@ namespace de
 		return;
 	}
 
-	void RHI_D3D11::PresentFrame()
+	void RHI_D3D11::FinishFrame()
 	{
-		std::cout << "[de::RHI_D3D11] PresentFrame" << std::endl;
 
 		// TODO : ADD VSYNC TOGGLE
 		m_SwapChain->Present(1, 0); // vsync

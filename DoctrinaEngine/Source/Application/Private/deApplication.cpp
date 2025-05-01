@@ -1,7 +1,7 @@
 #include "Application/Public/deApplication.h"
-#include "Core/Public/deVersion.h"
 
-#include <iostream>
+#include "Core/Public/deVersion.h"
+#include "Tools/Public/deConsole.h"
 
 namespace de
 {
@@ -14,11 +14,6 @@ namespace de
 		m_HWND = nullptr;
 	}
 
-	Application::~Application()
-	{
-
-	}
-
 	void Application::Initialize(int screenWidth, int screenHeight)
 	{
 		ScreenWidth = screenWidth;
@@ -26,7 +21,7 @@ namespace de
 
 		if (Initialised)
 		{
-			std::cout << "[de::Application] Already Initialised" << std::endl;
+			Console::Post("[de::Application] Already initialised", Console::LogLevel::Warning);
 
 			return;
 		}
@@ -34,7 +29,8 @@ namespace de
 		bool result = InitializeWindows();
 		if (!result)
 		{
-			std::cout << "[de::Application] FAILED : InitializeWindows()" << std::endl;
+
+			Console::Post("[de::Application] FAILED : InitializeWindows()", Console::LogLevel::Error);
 			Initialised = false;
 
 			return;
@@ -42,7 +38,8 @@ namespace de
 
 		m_Renderer.Initialize(screenWidth, screenHeight, GetWindow(), false, 1000.0f, 0.3f);
 
-		std::cout << "[de::Application] Initialised" << std::endl;
+		Console::Post("[de::Application] Initialised", Console::LogLevel::Default);
+
 		Initialised = true;
 	}
 
@@ -51,7 +48,8 @@ namespace de
 		ShutdownWindows();
 		m_Renderer.Shutdown();
 
-		std::cout << "[de::Application] Shutdown" << std::endl;
+		Console::Post("[de::Application] Shutdown", Console::LogLevel::Default);
+
 		return;
 	}
 
@@ -78,18 +76,12 @@ namespace de
 			}
 			else
 			{
+				//TODO: FIXEDUPDATE AND FRAMEINDEPENT UPDATE
 
-				if (FrameIndependentUpdate)
+				result = FixedUpdate();
+				if (!result)
 				{
-					// TODO: DO THIS
-				}
-				else
-				{
-					result = FixedUpdate();
-					if (!result)
-					{
-						done = true;
-					}
+					done = true;
 				}
 			}
 
