@@ -6,12 +6,16 @@
 # | |__| | |__| | |____   | |  | | \ \ _| |_| |\  |/ ____ \  | |____| |\  | |__| |_| |_| |\  | |____ 
 # |_____/ \____/ \_____|  |_|  |_|  \_\_____|_| \_/_/    \_\ |______|_| \_|\_____|_____|_| \_|______|
                                                                                                     
-file(GLOB_RECURSE DOCTRINAENGINE_SOURCE_CPP CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.cpp")
-file(GLOB_RECURSE DOCTRINAENGINE_SOURCE_H CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/Source/*.h")
+file(GLOB_RECURSE DOCTRINAENGINE_SOURCE_CPP CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
+file(GLOB_RECURSE DOCTRINAENGINE_SOURCE_H CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
                                                                         
-
-add_library(DoctrinaEngine STATIC  ${DOCTRINAENGINE_SOURCE_CPP} ${DOCTRINAENGINE_SOURCE_H} "DoctrinaEngine.h")
-
+add_library(DoctrinaEngine STATIC "DoctrinaEngine.h" 
+"Source/Application/Private/deApplication.cpp" "Source/Application/Public/deApplication.h" 
+"Source/Core/Private/deCVar.cpp" "Source/Core/Public/deCVar.h" 
+"Source/Core/Public/deVersion.h" 
+"Source/Renderer/Private/deRenderer.cpp" "Source/Renderer/Public/deRenderer.h"
+"Source/Renderer/Private/deRHI_D3D11.cpp" "Source/Renderer/Private/deRHI_D3D11.h"
+"Source/Tools/Private/deConsole.cpp" "Source/Tools/Public/deConsole.h")
 
 target_include_directories(DoctrinaEngine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Source/")
 

@@ -10,14 +10,11 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("DoctrinaSDK")
 
+add_compile_definitions("RELEASE=$<CONFIG:Release>")
+add_compile_definitions("DEBUG=$<CONFIG:Debug>")
+
 add_subdirectory ("DoctrinaEngine")
 add_subdirectory ("Editor")
-
-target_compile_definitions(DoctrinaEngine PUBLIC "DEBUG=$<CONFIG:Debug>")
-target_compile_definitions(Editor PUBLIC "DEBUG=$<CONFIG:Debug>")
-
-target_compile_definitions(DoctrinaEngine PUBLIC "RELEASE=$<CONFIG:Release>")
-target_compile_definitions(Editor PUBLIC "RELEASE=$<CONFIG:Release>")
 
 #DELETE THE OUT FOLDER AFTER CHANGING THIS VARIABLE
 option(PRODUCTION_BUILD "Remove console and debug signatures" off)

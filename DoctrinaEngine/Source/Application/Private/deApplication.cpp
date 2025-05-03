@@ -2,16 +2,20 @@
 
 #include "Core/Public/deVersion.h"
 #include "Tools/Public/deConsole.h"
+#include "Core/Public/deCVar.h"
 
 namespace de
 {
+
 	Application::Application(LPCSTR name)
 	{
 		Name = name;
-		
 
 		m_HINSTANCE = nullptr;
 		m_HWND = nullptr;
+
+		ScreenHeight = 0;
+		ScreenWidth = 0;
 	}
 
 	void Application::Initialize(int screenWidth, int screenHeight)
@@ -102,7 +106,6 @@ namespace de
 
 	bool Application::FixedUpdate()
 	{
-		bool result;
 
 		if (m_Renderer.Initialised)
 		{
@@ -114,7 +117,6 @@ namespace de
 
 	bool Application::Update(float dt)
 	{
-		bool result; 
 
 		return true;
 	}
@@ -122,7 +124,7 @@ namespace de
 	bool Application::InitializeWindows()
 	{
 		WNDCLASSEX wcClassEx;
-		DEVMODE DMScreenSettings;
+		DEVMODE DMScreenSettings{};
 		int PosX, PosY;
 		int screenWidth, screenHeight;
 

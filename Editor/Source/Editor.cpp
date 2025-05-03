@@ -9,6 +9,7 @@ int main()
 	if (app.Initialised)
 	{
 		app.Run();
+
 	}
 
 	app.Shutdown();
