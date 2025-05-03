@@ -4,8 +4,11 @@
 #include "Tools/Public/deConsole.h"
 #include "Core/Public/deCVar.h"
 
+using namespace de::CVar;
+
 namespace de
 {
+	CVar_Int cvar_int("cvar_int", "this is an int cvar", 69, ProtectionLevel::UnProtected);
 
 	Application::Application(LPCSTR name)
 	{
@@ -43,6 +46,8 @@ namespace de
 		m_Renderer.Initialize(screenWidth, screenHeight, GetWindow(), false, 1000.0f, 0.3f);
 
 		Console::Post("[de::Application] Initialised", Console::LogLevel::Default);
+
+		Console::Post("cvar_int : " + std::to_string(cvar_int.Get()), Console::LogLevel::Default);
 
 		Initialised = true;
 	}

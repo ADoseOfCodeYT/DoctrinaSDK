@@ -5,7 +5,7 @@
 
 // Ok so this shit is sooo confusing
 // Lemme go into some lore here
-// First, i looked at how quake does cvars, tried to implement but im too stupid to convert some C fuckery to C++ even though C shld work with a C++ compiler right???
+// First, i looked at how quake does cvars, tried to implement but im too stupid to understand that god-level code
 // Then, i looked at Source Engine's implementation, i understood that a bit better but ehhh i dont need it to be that big
 // I was gonna look at Unreal but fuck me id rather fight a gorilla than look at that mess
 // Anyways, the way this works is that CVarSystem is an interface (and a singleton) and CVarSystemImpl is the actual implementation
@@ -15,13 +15,6 @@ namespace de
 {
 	class CVarParameter;
 
-	enum class CVarFlags : uint32_t
-	{
-		None = 0,
-		UnProtected = 1 << 1, // Just a chill as fuck, no shits given
-		Protected = 1 << 2, // Ehh will cock block the console but its legs are wide open to compile-time Set()
-		TantrumThrower = 1 << 3, // Fuck everyone, including you. This mf will not let anything change it once initailised. If you even begin to type Set() it will find you and end you (okay maybe not, but be warned)
-	};
 	class CVarSystem
 	{
 
@@ -52,34 +45,47 @@ namespace de
 		using CVarType = T;
 	};
 
-	struct CVar_Float : CVar_Base<double>
+	namespace CVar
 	{
-		CVar_Float(const char* name, const char* description, double defaultValue, CVarFlags flags = CVarFlags::None);
+		enum class ProtectionLevel : uint32_t
+		{
+			None = 0,
+			UnProtected = 1 << 1, // Just a chill as fuck, no shits given
+			Protected = 1 << 2, // Ehh will cock block the console but its legs are wide open to compile-time Set()
+			TantrumThrower = 1 << 3, // Fuck everyone, including you. This mf will not let anything change it once initailised. If you even begin to type Set() it will find you and end you (okay maybe not, but be warned)
+		};
 
-		double Get();
-		double* GetPtr();
-		float GetFloat();
-		float* GetFloatPtr();
-		void Set(double val);
-	};
+		struct CVar_Float : CVar_Base<double>
+		{
+			CVar_Float(const char* name, const char* description, double defaultValue, ProtectionLevel protectionLvl = ProtectionLevel::UnProtected);
 
-	struct CVar_Int : CVar_Base<int32_t>
-	{
-		CVar_Int(const char* name, const char* description, int32_t defaultValue, CVarFlags flags = CVarFlags::None);
-		int32_t Get();
-		int32_t* GetPtr();
-		void Set(int32_t val);
+			double Get();
+			double* GetPtr();
+			float GetFloat();
+			float* GetFloatPtr();
+			void Set(double val);
+		};
 
-		void Toggle(); // boolean functionality, value must be 1 or 0 for this to work
-	};
+		struct CVar_Int : CVar_Base<int32_t>
+		{
+			CVar_Int(const char* name, const char* description, int32_t defaultValue, ProtectionLevel protectionLvl = ProtectionLevel::UnProtected);
+			int32_t Get();
+			int32_t* GetPtr();
+			void Set(int32_t val);
 
-	struct CVar_String : CVar_Base<std::string>
-	{
-		CVar_String(const char* name, const char* description, const char* defaultValue, CVarFlags flags = CVarFlags::None);
+			void Toggle(); // boolean functionality, value must be 1 or 0 for this to work
+		};
 
-		const char* Get();
-		void Set(std::string&& val);
-	};
+		struct CVar_String : CVar_Base<std::string>
+		{
+			CVar_String(const char* name, const char* description, const char* defaultValue, ProtectionLevel protectionLvl = ProtectionLevel::UnProtected);
+
+			const char* Get();
+			void Set(std::string&& val);
+		};
+	}
+
+	
 }
 
 

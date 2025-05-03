@@ -24,8 +24,6 @@ namespace de
 
 		LRESULT CALLBACK MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam);
 
-
-
 	public:
 
 		LPCSTR Name;
