@@ -11,6 +11,8 @@
 #define MAX_FLOAT_CVARS 1000
 #define MAX_STRING_CVARS 200
 
+de::CVar::CVar_Int CVAR_protection_enabled("protection_enabled", 1, de::CVar::ProtectionLevel::UnProtected);
+
 namespace de
 {
 	enum class CVarType : char
@@ -30,7 +32,6 @@ namespace de
 		CVarType type;
 		CVar::ProtectionLevel protectionLvl;
 		std::string name;
-		std::string description;
 	};
 
 	template<typename T>
@@ -119,9 +120,13 @@ namespace de
 		void SetIntCVar(StringUtils::StringHash hash, int32_t value) override final;
 		void SetStringCVar(StringUtils::StringHash hash, const char* value) override final;
 
-		CVarParameter* CreateFloatCVar(const char* name, const char* description, double defaultValue, double currentValue) override final;
-		CVarParameter* CreateIntCVar(const char* name, const char* description, int32_t defaultValue, int32_t currentValue) override final;
-		CVarParameter* CreateStringCVar(const char* name, const char* description, const char* defaultValue, const char* currentValue) override final;
+		void SetFloatCVarSafe(StringUtils::StringHash hash, double value) override final;
+		void SetIntCVarSafe(StringUtils::StringHash hash, int32_t value) override final;
+		void SetStringCVarSafe(StringUtils::StringHash hash, const char* value) override final;
+
+		CVarParameter* CreateFloatCVar(const char* name, double defaultValue, double currentValue) override final;
+		CVarParameter* CreateIntCVar(const char* name, int32_t defaultValue, int32_t currentValue) override final;
+		CVarParameter* CreateStringCVar(const char* name, const char* defaultValue, const char* currentValue) override final;
 
 	public:
 		CVarArray<int32_t> intCVars{ MAX_INT_CVARS };
@@ -178,7 +183,7 @@ namespace de
 
 	private:
 
-		CVarParameter* InitCVar(const char* name, const char* description);
+		CVarParameter* InitCVar(const char* name);
 
 	private:
 
@@ -238,10 +243,91 @@ namespace de
 		SetCVarCurrent<std::string>(hash, value);
 	}
 
-	CVarParameter* CVarSystemImpl::CreateFloatCVar(const char* name, const char* description, double defaultValue, double currentValue)
+	void CVarSystemImpl::SetFloatCVarSafe(StringUtils::StringHash hash, double value)
+	{
+		CVarParameter* cvar = GetCVar(hash);
+
+		if (cvar)
+		{
+			switch (cvar->protectionLvl)
+			{
+			case CVar::ProtectionLevel::UnProtected:
+				SetCVarCurrent<double>(hash, value);
+				break;
+			case CVar::ProtectionLevel::Protected:
+				if (CVAR_protection_enabled.Get())
+				{
+					Console::Post("CVar : " + cvar->name + " cant be changed because it is a protected CVar. Set protection_enabled to 0 to change the value of this CVar", Console::LogLevel::Warning);
+				}
+				else
+				{
+					SetCVarCurrent<double>(hash, value);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	void CVarSystemImpl::SetIntCVarSafe(StringUtils::StringHash hash, int32_t value)
+	{
+		CVarParameter* cvar = GetCVar(hash);
+
+		if (cvar)
+		{
+			switch (cvar->protectionLvl)
+			{
+			case CVar::ProtectionLevel::UnProtected:
+				SetCVarCurrent<int>(hash, value);
+				break;
+			case CVar::ProtectionLevel::Protected:
+				if (CVAR_protection_enabled.Get())
+				{
+					Console::Post("CVar : " + cvar->name + " cant be changed because it is a protected CVar. Set protection_enabled to 0 to change the value of this CVar", Console::LogLevel::Warning);
+				}
+				else
+				{
+					SetCVarCurrent<int>(hash, value);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	void CVarSystemImpl::SetStringCVarSafe(StringUtils::StringHash hash, const char* value)
+	{
+		CVarParameter* cvar = GetCVar(hash);
+
+		if (cvar)
+		{
+			switch (cvar->protectionLvl)
+			{
+			case CVar::ProtectionLevel::UnProtected:
+				SetCVarCurrent<std::string>(hash, value);
+				break;
+			case CVar::ProtectionLevel::Protected:
+				if (CVAR_protection_enabled.Get())
+				{
+					Console::Post("CVar : " + cvar->name + " cant be changed because it is a protected CVar. Set protection_enabled to 0 to change the value of this CVar", Console::LogLevel::Warning);
+				}
+				else
+				{
+					SetCVarCurrent<std::string>(hash, value);
+				}
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	CVarParameter* CVarSystemImpl::CreateFloatCVar(const char* name, double defaultValue, double currentValue)
 	{
 		std::unique_lock lock(mutex_);
-		CVarParameter* param = InitCVar(name, description);
+		CVarParameter* param = InitCVar(name);
 		if (!param) return nullptr;
 
 		param->type = CVarType::FLOAT;
@@ -251,10 +337,10 @@ namespace de
 		return param;
 	}
 
-	CVarParameter* CVarSystemImpl::CreateIntCVar(const char* name, const char* description, int32_t defaultValue, int32_t currentValue)
+	CVarParameter* CVarSystemImpl::CreateIntCVar(const char* name, int32_t defaultValue, int32_t currentValue)
 	{
 		std::unique_lock lock(mutex_);
-		CVarParameter* param = InitCVar(name, description);
+		CVarParameter* param = InitCVar(name);
 		if (!param) return nullptr;
 
 		param->type = CVarType::INT;
@@ -264,10 +350,10 @@ namespace de
 		return param;
 	}
 
-	CVarParameter* CVarSystemImpl::CreateStringCVar(const char* name, const char* description, const char* defaultValue, const char* currentValue)
+	CVarParameter* CVarSystemImpl::CreateStringCVar(const char* name, const char* defaultValue, const char* currentValue)
 	{
 		std::unique_lock lock(mutex_);
-		CVarParameter* param = InitCVar(name, description);
+		CVarParameter* param = InitCVar(name);
 		if (!param) return nullptr;
 
 		param->type = CVarType::STRING;
@@ -277,7 +363,7 @@ namespace de
 		return param;
 	}
 
-	CVarParameter* CVarSystemImpl::InitCVar(const char* name, const char* description)
+	CVarParameter* CVarSystemImpl::InitCVar(const char* name)
 	{
 
 		uint32_t namehash = StringUtils::StringHash{ name };
@@ -286,7 +372,6 @@ namespace de
 		CVarParameter& newParam = savedCVars[namehash];
 
 		newParam.name = name;
-		newParam.description = description;
 
 		return &newParam;
 	}
@@ -307,9 +392,9 @@ namespace de
 	
 	namespace CVar
 	{
-		CVar_Float::CVar_Float(const char* name, const char* description, double defaultValue, CVar::ProtectionLevel protectionLvl)
+		CVar_Float::CVar_Float(const char* name, double defaultValue, CVar::ProtectionLevel protectionLvl)
 		{
-			CVarParameter* cvar = CVarSystem::Get()->CreateFloatCVar(name, description, defaultValue, defaultValue);
+			CVarParameter* cvar = CVarSystem::Get()->CreateFloatCVar(name, defaultValue, defaultValue);
 			cvar->protectionLvl = protectionLvl;
 			index = cvar->arrayIndex;
 		}
@@ -340,9 +425,9 @@ namespace de
 			SetCVarCurrentByIndex<CVarType>(index, f);
 		}
 
-		CVar_Int::CVar_Int(const char* name, const char* description, int32_t defaultValue, CVar::ProtectionLevel protectionLvl)
+		CVar_Int::CVar_Int(const char* name, int32_t defaultValue, CVar::ProtectionLevel protectionLvl)
 		{
-			CVarParameter* cvar = CVarSystem::Get()->CreateIntCVar(name, description, defaultValue, defaultValue);
+			CVarParameter* cvar = CVarSystem::Get()->CreateIntCVar(name, defaultValue, defaultValue);
 			cvar->protectionLvl = protectionLvl;
 			index = cvar->arrayIndex;
 		}
@@ -369,9 +454,9 @@ namespace de
 			Set(enabled ? 0 : 1);
 		}
 
-		CVar_String::CVar_String(const char* name, const char* description, const char* defaultValue, CVar::ProtectionLevel protectionLvl)
+		CVar_String::CVar_String(const char* name , const char* defaultValue, CVar::ProtectionLevel protectionLvl)
 		{
-			CVarParameter* cvar = CVarSystem::Get()->CreateStringCVar(name, description, defaultValue, defaultValue);
+			CVarParameter* cvar = CVarSystem::Get()->CreateStringCVar(name, defaultValue, defaultValue);
 			cvar->protectionLvl = protectionLvl;
 			index = cvar->arrayIndex;
 		}
@@ -385,7 +470,6 @@ namespace de
 		{
 			SetCVarCurrentByIndex<CVarType>(index, val);
 		}
-
 	}
 	
 }

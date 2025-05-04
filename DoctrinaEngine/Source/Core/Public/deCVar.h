@@ -11,6 +11,7 @@
 // Anyways, the way this works is that CVarSystem is an interface (and a singleton) and CVarSystemImpl is the actual implementation
 // Legit just copied https://vkguide.dev/docs/extra-chapter/cvar_system/ (fucking life saver)
 
+
 namespace de
 {
 	class CVarParameter;
@@ -27,13 +28,17 @@ namespace de
 		virtual int32_t* GetIntCVar(StringUtils::StringHash hash) = 0;
 		virtual const char* GetStringCVar(StringUtils::StringHash hash) = 0;
 
-		virtual void SetFloatCVar(StringUtils::StringHash hash, double value) = 0;
-		virtual void SetIntCVar(StringUtils::StringHash hash, int32_t value) = 0;
-		virtual void SetStringCVar(StringUtils::StringHash hash, const char* value) = 0;
+		virtual void SetFloatCVar(StringUtils::StringHash hash, double value) = 0; 	// This is unsafe since this function doesnt respect the ProtectionLevel
+		virtual void SetIntCVar(StringUtils::StringHash hash, int32_t value) = 0; // This is unsafe since this function doesnt respect the ProtectionLevel
+		virtual void SetStringCVar(StringUtils::StringHash hash, const char* value) = 0; // This is unsafe since this function doesnt respect the ProtectionLevel
 
-		virtual CVarParameter* CreateFloatCVar(const char* name, const char* description, double defaultValue, double currentValue) = 0;
-		virtual CVarParameter* CreateIntCVar(const char* name, const char* description, int32_t defaultValue, int32_t currentValue) = 0;
-		virtual CVarParameter* CreateStringCVar(const char* name, const char* description, const char* defaultValue, const char* currentValue) = 0;
+		virtual void SetFloatCVarSafe(StringUtils::StringHash hash, double value) = 0; // This is safe since this function does respect the ProtectionLevel
+		virtual void SetIntCVarSafe(StringUtils::StringHash hash, int32_t value) = 0; // This is safe since this function does respect the ProtectionLevel
+		virtual void SetStringCVarSafe(StringUtils::StringHash hash, const char* value) = 0; // This is safe since this function does respect the ProtectionLevel
+
+		virtual CVarParameter* CreateFloatCVar(const char* name, double defaultValue, double currentValue) = 0;
+		virtual CVarParameter* CreateIntCVar(const char* name, int32_t defaultValue, int32_t currentValue) = 0;
+		virtual CVarParameter* CreateStringCVar(const char* name, const char* defaultValue, const char* currentValue) = 0;
 
 	};
 
@@ -51,42 +56,41 @@ namespace de
 		{
 			None = 0,
 			UnProtected = 1 << 1, // Just a chill as fuck, no shits given
-			Protected = 1 << 2, // Ehh will cock block the console but its legs are wide open to compile-time Set()
-			TantrumThrower = 1 << 3, // Fuck everyone, including you. This mf will not let anything change it once initailised. If you even begin to type Set() it will find you and end you (okay maybe not, but be warned)
+			Protected = 1 << 2, // Ehh will cock block the console but its legs are wide open to Set()
 		};
 
 		struct CVar_Float : CVar_Base<double>
 		{
-			CVar_Float(const char* name, const char* description, double defaultValue, ProtectionLevel protectionLvl = ProtectionLevel::UnProtected);
+			CVar_Float(const char* name, double defaultValue, ProtectionLevel protectionLvl = ProtectionLevel::UnProtected);
 
 			double Get();
 			double* GetPtr();
 			float GetFloat();
 			float* GetFloatPtr();
 			void Set(double val);
+			void SetSafe(double val);
 		};
 
 		struct CVar_Int : CVar_Base<int32_t>
 		{
-			CVar_Int(const char* name, const char* description, int32_t defaultValue, ProtectionLevel protectionLvl = ProtectionLevel::UnProtected);
+			CVar_Int(const char* name, int32_t defaultValue, ProtectionLevel protectionLvl = ProtectionLevel::UnProtected);
 			int32_t Get();
 			int32_t* GetPtr();
 			void Set(int32_t val);
-
+			void SetSafe(int32_t val);
 			void Toggle(); // boolean functionality, value must be 1 or 0 for this to work
 		};
 
 		struct CVar_String : CVar_Base<std::string>
 		{
-			CVar_String(const char* name, const char* description, const char* defaultValue, ProtectionLevel protectionLvl = ProtectionLevel::UnProtected);
+			CVar_String(const char* name, const char* defaultValue, ProtectionLevel protectionLvl = ProtectionLevel::UnProtected);
 
 			const char* Get();
 			void Set(std::string&& val);
+			void SetSafe(std::string&& val);
 		};
+
 	}
-
-	
 }
-
 
 #endif // !_DECVAR_H_

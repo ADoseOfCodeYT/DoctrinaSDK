@@ -10,7 +10,27 @@ namespace de
 	{
 
 #if DEBUG
-		std::cout << "" << message << std::endl;
+		std::string levelText;
+
+		switch (level)
+		{
+		case Console::LogLevel::Default:
+			levelText = "";
+			break;
+		case Console::LogLevel::Warning:
+			levelText = "[WARNING] ";
+			break;
+		case Console::LogLevel::Error:
+			levelText = "[ERROR] ";
+			break;
+		case Console::LogLevel::ExtremeError:
+			levelText = "[EXTREME ERROR] ";
+			break;
+		default:
+			break;
+		}
+
+		std::cout << "" + levelText + message << std::endl;
 #endif // DEBUG
 	}
 
@@ -18,7 +38,27 @@ namespace de
 	{
 
 #if DEBUG
-		std::cout << "" + message << std::endl;
+		std::string levelText;
+
+		switch (level)
+		{
+		case Console::LogLevel::Default:
+			levelText = "";
+			break;
+		case Console::LogLevel::Warning:
+			levelText = "[WARNING] ";
+			break;
+		case Console::LogLevel::Error:
+			levelText = "[ERROR] ";
+			break;
+		case Console::LogLevel::ExtremeError:
+			levelText = "[EXTREME ERROR] ";
+			break;
+		default:
+			break;
+		}
+
+		std::cout << "" + levelText + message << std::endl;
 #endif // DEBUG
 	}
 }

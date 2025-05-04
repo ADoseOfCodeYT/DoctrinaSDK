@@ -8,7 +8,7 @@ using namespace de::CVar;
 
 namespace de
 {
-	CVar_Int cvar_int("cvar_int", "this is an int cvar", 69, ProtectionLevel::UnProtected);
+	CVar_Int cvar_int("cvar_int", 69, ProtectionLevel::Protected);
 
 	Application::Application(LPCSTR name)
 	{
@@ -48,6 +48,15 @@ namespace de
 		Console::Post("[de::Application] Initialised", Console::LogLevel::Default);
 
 		Console::Post("cvar_int : " + std::to_string(cvar_int.Get()), Console::LogLevel::Default);
+
+		CVarSystem::Get()->SetIntCVarSafe("cvar_int", 70);
+
+		CVarSystem::Get()->SetIntCVar("protection_enabled", 0);
+
+		CVarSystem::Get()->SetIntCVarSafe("cvar_int", 70);
+
+		Console::Post("cvar_int : " + std::to_string(cvar_int.Get()), Console::LogLevel::Default);
+
 
 		Initialised = true;
 	}
