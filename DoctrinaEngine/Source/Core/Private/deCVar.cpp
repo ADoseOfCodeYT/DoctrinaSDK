@@ -113,8 +113,8 @@ namespace de
 	public:
 		CVarParam* GetCVar(StringUtils::StringHash hash) override final;
 
-		double* GetFloatCVar(StringUtils::StringHash hash) override final;
-		int32_t* GetIntCVar(StringUtils::StringHash hash) override final;
+		double GetFloatCVar(StringUtils::StringHash hash) override final;
+		int32_t GetIntCVar(StringUtils::StringHash hash) override final;
 		const char* GetStringCVar(StringUtils::StringHash hash) override final;
 
 		void SetFloatCVar(StringUtils::StringHash hash, double value) override final;
@@ -176,6 +176,7 @@ namespace de
 		}
 
 	public:
+
 		CVarArray<int32_t> IntCVars{ MAX_INT_CVARS };
 
 		CVarArray<double> FloatCVars{ MAX_FLOAT_CVARS };
@@ -195,14 +196,32 @@ namespace de
 		std::vector<CVarParam*> m_CachedEditParameters;
 	};
 
-	double* CVarSystemImpl::GetFloatCVar(StringUtils::StringHash hash)
+	double CVarSystemImpl::GetFloatCVar(StringUtils::StringHash hash)
 	{
-		return GetCVarCurrent<double>(hash);
+		double* val = GetCVarCurrent<double>(hash);
+		if (val)
+		{
+			return *val;
+		}
+		else
+		{
+			Console::Post("CVar couldn't be found", Console::LogLevel::Warning);
+			return 0.0;
+		}
 	}
 
-	int32_t* CVarSystemImpl::GetIntCVar(StringUtils::StringHash hash)
+	int32_t CVarSystemImpl::GetIntCVar(StringUtils::StringHash hash)
 	{
-		return GetCVarCurrent<int32_t>(hash);
+		int32_t* val = GetCVarCurrent<int32_t>(hash);
+		if (val)
+		{
+			return *val;
+		}
+		else
+		{
+			Console::Post("CVar couldn't be found", Console::LogLevel::Warning);
+			return 0;
+		}
 	}
 
 	const char* CVarSystemImpl::GetStringCVar(StringUtils::StringHash hash)

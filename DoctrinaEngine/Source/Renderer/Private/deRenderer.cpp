@@ -1,6 +1,7 @@
 #include "Renderer/Public/deRenderer.h"
 
 #include "Tools/Public/deConsole.h"
+#include "Core/Public/deCVar.h"
 
 namespace de
 {

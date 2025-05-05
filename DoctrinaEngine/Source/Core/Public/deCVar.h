@@ -24,8 +24,8 @@ namespace de
 
 		virtual CVarParam* GetCVar(StringUtils::StringHash hash) = 0;
 
-		virtual double* GetFloatCVar(StringUtils::StringHash hash) = 0;
-		virtual int32_t* GetIntCVar(StringUtils::StringHash hash) = 0;
+		virtual double GetFloatCVar(StringUtils::StringHash hash) = 0;
+		virtual int32_t GetIntCVar(StringUtils::StringHash hash) = 0;
 		virtual const char* GetStringCVar(StringUtils::StringHash hash) = 0;
 
 		virtual void SetFloatCVar(StringUtils::StringHash hash, double value) = 0; 	// This is unsafe since this function doesnt respect the ProtectionLevel
