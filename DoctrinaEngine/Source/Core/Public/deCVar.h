@@ -14,7 +14,7 @@
 
 namespace de
 {
-	class CVarParameter;
+	class CVarParam;
 
 	class CVarSystem
 	{
@@ -22,7 +22,7 @@ namespace de
 	public:
 		static CVarSystem* Get();
 
-		virtual CVarParameter* GetCVar(StringUtils::StringHash hash) = 0;
+		virtual CVarParam* GetCVar(StringUtils::StringHash hash) = 0;
 
 		virtual double* GetFloatCVar(StringUtils::StringHash hash) = 0;
 		virtual int32_t* GetIntCVar(StringUtils::StringHash hash) = 0;
@@ -36,9 +36,9 @@ namespace de
 		virtual void SetIntCVarSafe(StringUtils::StringHash hash, int32_t value) = 0; // This is safe since this function does respect the ProtectionLevel
 		virtual void SetStringCVarSafe(StringUtils::StringHash hash, const char* value) = 0; // This is safe since this function does respect the ProtectionLevel
 
-		virtual CVarParameter* CreateFloatCVar(const char* name, double defaultValue, double currentValue) = 0;
-		virtual CVarParameter* CreateIntCVar(const char* name, int32_t defaultValue, int32_t currentValue) = 0;
-		virtual CVarParameter* CreateStringCVar(const char* name, const char* defaultValue, const char* currentValue) = 0;
+		virtual CVarParam* CreateFloatCVar(const char* name, double defaultValue, double currentValue) = 0;
+		virtual CVarParam* CreateIntCVar(const char* name, int32_t defaultValue, int32_t currentValue) = 0;
+		virtual CVarParam* CreateStringCVar(const char* name, const char* defaultValue, const char* currentValue) = 0;
 
 	};
 
