@@ -15,7 +15,11 @@ add_executable (${PROJECT_NAME}
 "Source/targetver.h"
 "Source/Resource/resource.h"
 "Source/Resource/Editor.rc"
+"Source/Editor.cpp" "Source/Editor.h"
+"Source/stdafx.cpp" "Source/stdafx.h"
 )
+
+target_precompile_headers(${PROJECT_NAME} PRIVATE "Source/stdafx.h")
 
 ADD_DEFINITIONS(-DUNICODE)
 ADD_DEFINITIONS(-D_UNICODE)

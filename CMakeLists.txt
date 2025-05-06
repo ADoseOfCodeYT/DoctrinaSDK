@@ -10,8 +10,8 @@ cmake_minimum_required (VERSION 3.8)
 
 project ("DoctrinaSDK")
 
-add_compile_definitions("NDEBUG=$<CONFIG:Release>")
-add_compile_definitions("DEBUG=$<CONFIG:Debug>")
+#add_compile_definitions("NDEBUG=$<CONFIG:Release>")
+#add_compile_definitions("DEBUG=$<CONFIG:Debug>")
 
 add_subdirectory ("DoctrinaEngine")
 add_subdirectory ("Editor")

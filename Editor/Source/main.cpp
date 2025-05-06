@@ -1,5 +1,6 @@
 #include "main.h"
 
+#include "stdafx.h"
 #include "framework.h"
 
 #define MAX_LOADSTRING 100
@@ -8,12 +9,12 @@
 HINSTANCE hInst;                                // current instance
 WCHAR szTitle[MAX_LOADSTRING];                  // The title bar text
 WCHAR szWindowClass[MAX_LOADSTRING];            // the main window class name
+Editor DoctrinaEditor;                          // the editor application
 
 // Forward declarations of functions included in this code module:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
 BOOL                InitInstance(HINSTANCE, int);
 LRESULT CALLBACK    WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK    About(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     _In_opt_ HINSTANCE hPrevInstance,
@@ -23,9 +24,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
-    // TODO: Place code here.
-
-    // Initialize global strings
     LoadStringW(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
     LoadStringW(hInstance, IDS_APP_TITLE, szWindowClass, MAX_LOADSTRING);
     MyRegisterClass(hInstance);
@@ -38,22 +36,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_EDITOR));
 
-    MSG msg;
+    // Initialize the editor, THIS IS MANDATORY
+    //DoctrinaEditor.Initialize();
 
-    // Main message loop:
-    while (GetMessage(&msg, nullptr, 0, 0))
+    MSG msg = { 0 };
+    while (msg.message != WM_QUIT)
     {
-        if (!TranslateAccelerator(msg.hwnd, hAccelTable, &msg))
-        {
+        if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
+        }
+        else {
+            DoctrinaEditor.Run();
         }
     }
 
     return (int)msg.wParam;
 }
-
-
 
 //
 //  FUNCTION: MyRegisterClass()
@@ -74,34 +73,61 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
     wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EDITOR));
     wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
     wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcex.lpszMenuName = MAKEINTRESOURCEW(IDS_APP_TITLE);
+    wcex.lpszMenuName = L"";
     wcex.lpszClassName = szWindowClass;
     wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
 }
 
-//
-//   FUNCTION: InitInstance(HINSTANCE, int)
-//
-//   PURPOSE: Saves instance handle and creates main window
-//
-//   COMMENTS:
-//
-//        In this function, we save the instance handle in a global variable and
-//        create and display the main program window.
-//
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+BOOL CreateDoctrinaEditorWindow(int nCmdShow)
 {
-    hInst = hInstance; // Store instance handle in our global variable
+    int width = CW_USEDEFAULT;
+    int height = 0;
+    bool fullscreen = false;
+    bool borderless = false;
 
-    HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-        CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
+    HWND hWnd = NULL;
+
+    if (borderless || fullscreen)
+    {
+        // TODO: FIX THIS
+        /*width = std::max(100, width);
+        height = std::max(100, height);*/
+
+        hWnd = CreateWindowEx(
+            WS_EX_APPWINDOW,
+            szWindowClass,
+            szTitle,
+            WS_POPUP,
+            CW_USEDEFAULT, 0, width, height,
+            NULL,
+            NULL,
+            hInst,
+            NULL
+        );
+    }
+    else
+    {
+        hWnd = CreateWindow(
+            szWindowClass,
+            szTitle,
+            WS_OVERLAPPEDWINDOW,
+            CW_USEDEFAULT, 0, width, height,
+            NULL,
+            NULL,
+            hInst,
+            NULL
+        );
+    }
 
     if (!hWnd)
     {
         return FALSE;
     }
+
+
+    DoctrinaEditor.SetWindow(hWnd);
 
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
@@ -109,15 +135,17 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
     return TRUE;
 }
 
+BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+{
+    hInst = hInstance; // Store instance handle in our global variable
+
+    return CreateDoctrinaEditorWindow(nCmdShow);
+}
+
 //
 //  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
 //
 //  PURPOSE: Processes messages for the main window.
-//
-//  WM_COMMAND  - process the application menu
-//  WM_PAINT    - Paint the main window
-//  WM_DESTROY  - post a quit message and return
-//
 //
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -126,11 +154,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     case WM_COMMAND:
         DefWindowProc(hWnd, message, wParam, lParam);
     break;
+    case WM_SIZE:
+    case WM_DPICHANGED:
+        if (LOWORD(lParam) > 0 && HIWORD(lParam) > 0)
+            DoctrinaEditor.SetWindow(hWnd);
+        break;
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
         HDC hdc = BeginPaint(hWnd, &ps);
-        // TODO: Add any drawing code that uses hdc here...
         EndPaint(hWnd, &ps);
     }
     break;
@@ -141,24 +173,4 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
         return DefWindowProc(hWnd, message, wParam, lParam);
     }
     return 0;
-}
-
-// Message handler for about box.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-    UNREFERENCED_PARAMETER(lParam);
-    switch (message)
-    {
-    case WM_INITDIALOG:
-        return (INT_PTR)TRUE;
-
-    case WM_COMMAND:
-        if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-        {
-            EndDialog(hDlg, LOWORD(wParam));
-            return (INT_PTR)TRUE;
-        }
-        break;
-    }
-    return (INT_PTR)FALSE;
 }

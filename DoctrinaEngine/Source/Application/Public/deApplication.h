@@ -1,9 +1,8 @@
 #ifndef _DEAPPLICATION_H_
 #define _DEAPPLICATION_H_
 
-#define WIN32_LEAN_AND_MEAN
-
 #include <windows.h>
+
 
 #include "Renderer/Public/deRenderer.h"
 
@@ -13,46 +12,32 @@ namespace de
 	{
 	public:
 
-		Application(LPCSTR name);
+		Application();
 		virtual ~Application() = default;
 
-		void Initialize(int screenWidth, int screenHeight);
 		void Shutdown();
 		void Run();
 
-		HWND GetWindow();
+		virtual void Initialize();
+		virtual void Update(float dt);
+		virtual void FixedUpdate();
 
-		LRESULT CALLBACK MessageHandler(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam);
+		void SetWindow(HWND window);
 
 	public:
 
-		LPCSTR Name;
-
-		int ScreenWidth, ScreenHeight;
+		HWND Window;
 
 		bool Initialised = false;
 		bool VSync = true; // TODO: MOVE THIS TO A DIFFERENT CLASS AND MAKE IT CHANGEABLE WHILE APP IS RUNNING
 		bool Fullscreen = false; // TODO: MOVE THIS TO A DIFFERENT CLASS AND MAKE IT CHANGEABLE WHILE APP IS RUNNING
 
-	private:
+	protected:
 
-		bool FixedUpdate();
-		bool Update(float dt);
-		bool InitializeWindows();
-		void ShutdownWindows();
-
-	private:
-
-		HINSTANCE m_HINSTANCE;
-		HWND m_HWND;
-
-		Renderer m_Renderer;
+		float DeltaTime = 0.0f;
 	};
 }
 
-static LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM lparam);
-
-static de::Application* AppHandle = 0;
 
 #endif // !_DEAPPLICATION_H_
  
