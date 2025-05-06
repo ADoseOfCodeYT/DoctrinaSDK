@@ -16,8 +16,6 @@ add_compile_definitions("DEBUG=$<CONFIG:Debug>")
 add_subdirectory ("DoctrinaEngine")
 add_subdirectory ("Editor")
 
-set_target_properties(DoctrinaEngine PROPERTIES LINKER_LANGUAGE CXX)
-
 #DELETE THE OUT FOLDER AFTER CHANGING THIS VARIABLE
 option(PRODUCTION_BUILD "Remove debug signatures" off)
 
