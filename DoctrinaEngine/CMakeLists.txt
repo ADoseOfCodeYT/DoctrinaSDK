@@ -7,15 +7,11 @@
 # |_____/ \____/ \_____|  |_|  |_|  \_\_____|_| \_/_/    \_\ |______|_| \_|\_____|_____|_| \_|______|           
 
 cmake_minimum_required (VERSION 3.8)
-project ("DoctrinaEngine")
-                                                                        
-add_library(${PROJECT_NAME} STATIC "DoctrinaEngine.h" 
-"Source/Application/Private/deApplication.cpp" "Source/Application/Public/deApplication.h" 
-"Source/Core/Private/deCVar.cpp" "Source/Core/Public/deCVar.h" 
-"Source/Core/Public/deVersion.h" 
-"Source/Renderer/Private/deRenderer.cpp" "Source/Renderer/Public/deRenderer.h"
-"Source/Renderer/Private/deRHI_D3D11.cpp" "Source/Renderer/Private/deRHI_D3D11.h"
-"Source/Tools/Private/deConsole.cpp" "Source/Tools/Public/deConsole.h")
+project ("DoctrinaEngine") 
+
+file(GLOB SOURCE_FILES CONFIGURE_DEPENDS  "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
+
+add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES})
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Source/")
 
