@@ -55,3 +55,4 @@ static LRESULT CALLBACK WndProc(HWND hwnd, UINT umessage, WPARAM wparam, LPARAM 
 static de::Application* AppHandle = 0;
 
 #endif // !_DEAPPLICATION_H_
+ 
