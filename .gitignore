@@ -38,7 +38,7 @@ OUT/
 
 #ThirdParty stuff that was installed with FetchContent_Declare
 
-ThirdParty/FetchContent/**
+ThirdParty/FetchContent
 
 
 #Visual Studio

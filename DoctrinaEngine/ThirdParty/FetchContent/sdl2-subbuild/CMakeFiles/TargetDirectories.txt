@@ -1,0 +1,3 @@
+C:/Users/Ismail/Documents/C++/DoctrinaSDK/DoctrinaEngine/ThirdParty/FetchContent/sdl2-subbuild/CMakeFiles/sdl2-populate.dir
+C:/Users/Ismail/Documents/C++/DoctrinaSDK/DoctrinaEngine/ThirdParty/FetchContent/sdl2-subbuild/CMakeFiles/edit_cache.dir
+C:/Users/Ismail/Documents/C++/DoctrinaSDK/DoctrinaEngine/ThirdParty/FetchContent/sdl2-subbuild/CMakeFiles/rebuild_cache.dir
