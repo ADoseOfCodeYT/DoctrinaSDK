@@ -8,6 +8,18 @@
 
 cmake_minimum_required (VERSION 3.8)
 project ("DoctrinaEngine")
+
+include(FetchContent)
+
+set(FETCHCONTENT_BASE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/FetchContent CACHE PATH "Missing description." FORCE)
+
+FetchContent_Declare(
+  sdl2
+  GIT_REPOSITORY https://github.com/libsdl-org/SDL
+  GIT_TAG release-2.26.5)
+
+FetchContent_MakeAvailable(sdl2)
+
                                                                         
 add_library(${PROJECT_NAME} STATIC "DoctrinaEngine.h" 
 "Source/Application/Private/deApplication.cpp" "Source/Application/Public/deApplication.h" 
@@ -16,6 +28,8 @@ add_library(${PROJECT_NAME} STATIC "DoctrinaEngine.h"
 "Source/Renderer/Private/deRenderer.cpp" "Source/Renderer/Public/deRenderer.h"
 "Source/Renderer/Private/deRHI_D3D11.cpp" "Source/Renderer/Private/deRHI_D3D11.h"
 "Source/Tools/Private/deConsole.cpp" "Source/Tools/Public/deConsole.h")
+
+target_link_libraries(${PROJECT_NAME} PUBLIC  SDL2-static)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Source/")
 

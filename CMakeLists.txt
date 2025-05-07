@@ -8,6 +8,7 @@
                                                                                            
 cmake_minimum_required (VERSION 3.8)
 
+
 project ("DoctrinaSDK")
 
 #add_compile_definitions("NDEBUG=$<CONFIG:Release>")

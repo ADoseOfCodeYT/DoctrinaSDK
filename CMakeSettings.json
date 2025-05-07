@@ -9,7 +9,7 @@
       "installRoot": "${projectDir}\\OUT\\INSTALL\\${name}",
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
-      "ctestCommandArgs": "",
+      "ctestCommandArgs": ""
     },
     {
       "name": "Release",
@@ -20,8 +20,7 @@
       "cmakeCommandArgs": "",
       "buildCommandArgs": "",
       "ctestCommandArgs": "",
-      "inheritEnvironments": [ "msvc_x64_x64" ],
-
+      "inheritEnvironments": [ "msvc_x64_x64" ]
     }
   ]
 }

@@ -31,9 +31,15 @@
 *.out
 *.app
 
-#Build Results
+#CMake
 
 BUILD/
+OUT/
+
+#ThirdParty stuff that was installed with FetchContent_Declare
+
+ThirdParty/FetchContent/**
+
 
 #Visual Studio
 

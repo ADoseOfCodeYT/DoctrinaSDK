@@ -37,7 +37,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_EDITOR));
 
     // Initialize the editor, THIS IS MANDATORY
-    //DoctrinaEditor.Initialize();
+    DoctrinaEditor.Initialize();
 
     MSG msg = { 0 };
     while (msg.message != WM_QUIT)
