@@ -3,7 +3,6 @@
 
 #include <string>
 
-
 namespace de :: Console
 {
 	enum class LogLevel

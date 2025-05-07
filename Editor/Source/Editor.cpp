@@ -1,13 +1,17 @@
 #include "Editor.h"
 
-#include "stdafx.h"
-
-void Editor::Initialize()
+int main()
 {
-	de::Application::Initialize();
-}
+	de::Application app("Doctrina Editor");
 
-void Editor::FixedUpdate()
-{
+	app.Initialize(1280, 720);
 
+	if (app.Initialised)
+	{
+		app.Run();
+
+	}
+
+	app.Shutdown();
+	return 0;
 }

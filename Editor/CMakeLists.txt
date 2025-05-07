@@ -5,31 +5,13 @@
 # |  __| | |  | || |    | | | |  | |  _  / 
 # | |____| |__| || |_   | | | |__| | | \ \ 
 # |______|_____/_____|  |_|  \____/|_|  \_\
+                                                               
 
-cmake_minimum_required (VERSION 3.8)
-project ("Editor")
+add_executable (Editor "Source/Editor.cpp" "Source/Editor.h"  )
 
-add_executable (${PROJECT_NAME}
-"Source/main.cpp" "Source/main.h"  
-"Source/framework.h"
-"Source/targetver.h"
-"Source/Resource/resource.h"
-"Source/Resource/Editor.rc"
-"Source/Editor.cpp" "Source/Editor.h"
-"Source/stdafx.cpp" "Source/stdafx.h"
-)
+target_link_libraries(Editor PRIVATE DoctrinaEngine)
 
-target_precompile_headers(${PROJECT_NAME} PRIVATE "Source/stdafx.h")
-
-ADD_DEFINITIONS(-DUNICODE)
-ADD_DEFINITIONS(-D_UNICODE)
-
-set_target_properties(${PROJECT_NAME}  PROPERTIES
-WIN32_EXECUTABLE YES
-)
-
-target_link_libraries(${PROJECT_NAME}  PRIVATE DoctrinaEngine)
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET ${PROJECT_NAME}  PROPERTY CXX_STANDARD 20)
+  set_property(TARGET Editor PROPERTY CXX_STANDARD 20)
 endif()
