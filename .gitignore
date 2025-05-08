@@ -38,6 +38,7 @@ BUILD/
 #Visual Studio
 
 *.vs
+*.vscode
 
 #Jetbrains 
 

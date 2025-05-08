@@ -8,13 +8,16 @@
                                                                                            
 cmake_minimum_required (VERSION 4.0.2)
 
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE CXX_EXTENSIONS OFF)
+
 project ("DoctrinaSDK")
 
 add_compile_definitions("RELEASE=$<CONFIG:Release>")
 add_compile_definitions("DEBUG=$<CONFIG:Debug>")
 
 add_subdirectory ("DoctrinaEngine")
-add_subdirectory ("Editor")
+add_subdirectory ("DoctrinaEditor")
 
 include(FetchContent)
 
@@ -25,24 +28,6 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(sdl2)
-
-#DELETE THE OUT FOLDER AFTER CHANGING THIS VARIABLE
-option(PRODUCTION_BUILD "Remove console and debug signatures" off)
-
-if(PRODUCTION_BUILD)
-	if(MSVC)
-
-	#Remove console and debug signatures
-
-		target_compile_definitions(DoctrinaEngine PUBLIC _CRT_SECURE_NO_WARNINGS)
-		target_compile_definitions(Editor PUBLIC _CRT_SECURE_NO_WARNINGS)
-
-
-		set_target_properties(DoctrinaEngine PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-		set_target_properties(Editor PROPERTIES LINK_FLAGS "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-
-	endif()
-endif()
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
