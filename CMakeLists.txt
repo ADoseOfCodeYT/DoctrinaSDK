@@ -17,7 +17,7 @@ add_compile_definitions("RELEASE=$<CONFIG:Release>")
 add_compile_definitions("DEBUG=$<CONFIG:Debug>")
 
 add_subdirectory ("DoctrinaEngine")
-add_subdirectory ("DoctrinaEditor")
+add_subdirectory("Editor")
 
 include(FetchContent)
 
