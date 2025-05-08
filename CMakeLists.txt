@@ -6,7 +6,7 @@
 # | |  | |/ ____ \ ____) |  | |  | |____| | \ \ 
 # |_|  |_/_/    \_\_____/   |_|  |______|_|  \_\
                                                                                            
-cmake_minimum_required (VERSION 3.8)
+cmake_minimum_required (VERSION 4.0.2)
 
 project ("DoctrinaSDK")
 
@@ -15,6 +15,16 @@ add_compile_definitions("DEBUG=$<CONFIG:Debug>")
 
 add_subdirectory ("DoctrinaEngine")
 add_subdirectory ("Editor")
+
+include(FetchContent)
+
+FetchContent_Declare(
+  sdl2
+  GIT_REPOSITORY https://github.com/libsdl-org/SDL
+  GIT_TAG release-2.32.2
+)
+
+FetchContent_MakeAvailable(sdl2)
 
 #DELETE THE OUT FOLDER AFTER CHANGING THIS VARIABLE
 option(PRODUCTION_BUILD "Remove console and debug signatures" off)

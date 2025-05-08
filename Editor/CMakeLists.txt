@@ -5,13 +5,16 @@
 # |  __| | |  | || |    | | | |  | |  _  / 
 # | |____| |__| || |_   | | | |__| | | \ \ 
 # |______|_____/_____|  |_|  \____/|_|  \_\
-                                                               
+                                   
+cmake_minimum_required (VERSION 4.0.2)
 
-add_executable (Editor "Source/Editor.cpp" "Source/Editor.h"  )
+project ("Editor")
 
-target_link_libraries(Editor PRIVATE DoctrinaEngine)
+add_executable (${PROJECT_NAME} "Source/Editor.cpp" "Source/Editor.h"  )
+
+target_link_libraries(${PROJECT_NAME} PRIVATE DoctrinaEngine)
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET Editor PROPERTY CXX_STANDARD 20)
+  set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
 endif()
