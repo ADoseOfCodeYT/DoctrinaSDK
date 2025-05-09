@@ -1,7 +1,7 @@
 #ifndef _DEAPPLICATION_H_
 #define _DEAPPLICATION_H_
 
-#include "SDL2/SDL.h"
+#include "SDL3/SDL.h"
 
 namespace de
 {

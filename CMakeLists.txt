@@ -22,12 +22,12 @@ add_subdirectory("Editor")
 include(FetchContent)
 
 FetchContent_Declare(
-  sdl2
+  sdl3
   GIT_REPOSITORY https://github.com/libsdl-org/SDL
-  GIT_TAG release-2.32.2
+  GIT_TAG release-3.2.12
 )
 
-FetchContent_MakeAvailable(sdl2)
+FetchContent_MakeAvailable(sdl3)
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)

@@ -19,7 +19,7 @@ add_library(${PROJECT_NAME} STATIC "DoctrinaEngine.h"
 "Source/Tools/Private/deConsole.cpp" "Source/Tools/Public/deConsole.h")
 
 
-target_link_libraries(${PROJECT_NAME} PUBLIC SDL2-static)
+target_link_libraries(${PROJECT_NAME} PUBLIC SDL3-static)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Source/")
 
