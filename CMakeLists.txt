@@ -8,18 +8,16 @@
                                                                                            
 cmake_minimum_required (VERSION 4.0.2)
 
+project ("DoctrinaSDK" CXX)
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE CXX_EXTENSIONS OFF)
 
-project ("DoctrinaSDK")
-
-add_compile_definitions("RELEASE=$<CONFIG:Release>")
-add_compile_definitions("DEBUG=$<CONFIG:Debug>")
-
-add_subdirectory ("DoctrinaEngine")
-add_subdirectory("Editor")
-
 include(FetchContent)
+
+# Configure SDL3
+set(SDL_STATIC ON CACHE BOOL "Build SDL3 as a static library")
+set(SDL_SHARED OFF CACHE BOOL "Do not build SDL3 as a shared library")
 
 FetchContent_Declare(
   sdl3
@@ -28,6 +26,12 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(sdl3)
+
+add_compile_definitions("RELEASE=$<CONFIG:Release>")
+add_compile_definitions("DEBUG=$<CONFIG:Debug>")
+
+add_subdirectory ("DoctrinaEngine")
+add_subdirectory("Editor")
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)

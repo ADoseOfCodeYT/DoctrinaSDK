@@ -6,6 +6,7 @@
 #include "SDL3/SDL_main.h"
 #include "SDL3/SDL_events.h"
 
-#include "../../DoctrinaEngine/DoctrinaEngine.h"
+#include "DoctrinaEngine.h"
+
 
 #endif // !_MAIN_H_

@@ -14,9 +14,10 @@ namespace de
 
 		virtual void Initialize();
 		void Shutdown();
-		void Run();
+		void Run(double dt);
 
 		virtual void FixedUpdate();
+		virtual void Update(double dt);
 
 		void SetWindow(SDL_Window* window);
 

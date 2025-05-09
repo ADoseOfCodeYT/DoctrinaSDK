@@ -38,17 +38,23 @@ namespace de
 		return;
 	}
 
-	void Application::Run()
+	void Application::Run(double dt)
 	{
-		assert(Initialised && "Application not initialised");
+		assert(Initialised && "[de::Application] not initialised");
 
-		return;
+		FixedUpdate();
+		Update(dt);
 	}
 
     void Application::FixedUpdate()
     {
 
     }
+
+	void Application::Update(double dt)
+	{
+
+	}
 
     void Application::SetWindow(SDL_Window *window)
     {

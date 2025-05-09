@@ -1,5 +1,4 @@
-﻿
-#  _____   ____   _____ _______ _____  _____ _   _            ______ _   _  _____ _____ _   _ ______ 
+﻿#  _____   ____   _____ _______ _____  _____ _   _            ______ _   _  _____ _____ _   _ ______ 
 # |  __ \ / __ \ / ____|__   __|  __ \|_   _| \ | |   /\     |  ____| \ | |/ ____|_   _| \ | |  ____|
 # | |  | | |  | | |       | |  | |__) | | | |  \| |  /  \    | |__  |  \| | |  __  | | |  \| | |__   
 # | |  | | |  | | |       | |  |  _  /  | | | . ` | / /\ \   |  __| | . ` | | |_ | | | | . ` |  __|  
@@ -8,22 +7,17 @@
                          
 cmake_minimum_required (VERSION 4.0.2)
 
-project ("DoctrinaEngine")
+project ("DoctrinaEngine" CXX)
 
-add_library(${PROJECT_NAME} STATIC "DoctrinaEngine.h" 
-"Source/Application/Private/deApplication.cpp" "Source/Application/Public/deApplication.h" 
-"Source/Core/Private/deCVar.cpp" "Source/Core/Public/deCVar.h" 
-"Source/Core/Public/deVersion.h" 
-"Source/Renderer/Private/deRenderer.cpp" "Source/Renderer/Public/deRenderer.h"
-"Source/Renderer/Private/deRHI_D3D11.cpp" "Source/Renderer/Private/deRHI_D3D11.h"
-"Source/Tools/Private/deConsole.cpp" "Source/Tools/Public/deConsole.h")
+set(CMAKE_CXX_STANDARD 20)
 
+
+
+file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "Source/*.cpp")
+
+add_library(${PROJECT_NAME} STATIC "DoctrinaEngine.h"  ${SOURCE_FILES})
 
 target_link_libraries(${PROJECT_NAME} PUBLIC SDL3-static)
 
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/Source/")
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 20)
-endif()
-               

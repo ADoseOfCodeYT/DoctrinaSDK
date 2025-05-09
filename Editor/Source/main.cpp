@@ -1,8 +1,15 @@
 #include "main.h"
 
+#include "Editor.h"
 
 SDL_Window* window;
 SDL_Renderer* renderer;
+
+Editor DoctrinaEditor;
+
+Uint64 NOW = SDL_GetPerformanceCounter();
+Uint64 LAST = 0;
+double DeltaTime = 0;
 
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
 
@@ -18,6 +25,10 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
         de::Console::Post("Coudln't create window and renderer",  de::Console::LogLevel::ExtremeError);
         return SDL_APP_FAILURE;
     }
+
+    DoctrinaEditor.Initialize();
+    DoctrinaEditor.SetWindow(window);
+
 
     return SDL_APP_CONTINUE;
 }
@@ -36,6 +47,8 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
         
         SDL_RenderClear(renderer);
         SDL_RenderPresent(renderer);
+
+        DoctrinaEditor.SetWindow(window);
         de::Console::Post("Window resized to: " + std::to_string(newWidth) + "x" + std::to_string(newHeight), de::Console::LogLevel::Default);
     }
 
@@ -44,6 +57,14 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
 
 SDL_AppResult SDL_AppIterate(void* appstate) 
 {
+    LAST = NOW;
+    NOW = SDL_GetPerformanceCounter();
+
+    DeltaTime = (double)((NOW - LAST)*1000 / (double)SDL_GetPerformanceFrequency() );
+
+    DoctrinaEditor.Run(DeltaTime);
+
+
     return SDL_APP_CONTINUE;
 }
 
