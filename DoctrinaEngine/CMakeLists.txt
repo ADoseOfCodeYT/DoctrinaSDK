@@ -11,8 +11,6 @@ project ("DoctrinaEngine" CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 
-
-
 file(GLOB_RECURSE SOURCE_FILES CONFIGURE_DEPENDS "Source/*.cpp")
 
 add_library(${PROJECT_NAME} STATIC "DoctrinaEngine.h"  ${SOURCE_FILES})

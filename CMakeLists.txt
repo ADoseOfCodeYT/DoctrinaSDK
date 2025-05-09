@@ -1,11 +1,13 @@
-﻿
-#  __  __           _____ _______ ______ _____  
+﻿#  __  __           _____ _______ ______ _____  
 # |  \/  |   /\    / ____|__   __|  ____|  __ \ 
 # | \  / |  /  \  | (___    | |  | |__  | |__) |
 # | |\/| | / /\ \  \___ \   | |  |  __| |  _  / 
 # | |  | |/ ____ \ ____) |  | |  | |____| | \ \ 
 # |_|  |_/_/    \_\_____/   |_|  |______|_|  \_\
-                                                                                           
+                             
+# Holy fucking shit CMake makes me want to kill myself
+# My fucking c key is so unreliable it just doesnt work sometimes
+
 cmake_minimum_required (VERSION 4.0.2)
 
 project ("DoctrinaSDK" CXX)
@@ -16,8 +18,14 @@ set(CMAKE CXX_EXTENSIONS OFF)
 include(FetchContent)
 
 # Configure SDL3
+
 set(SDL_STATIC ON CACHE BOOL "Build SDL3 as a static library")
 set(SDL_SHARED OFF CACHE BOOL "Do not build SDL3 as a shared library")
+set(SDL_OPENGL OFF CACHE BOOL "Do not build with OpenGL")
+set(SDL_OPENGLES OFF CACHE BOOL "Do not build with OpenGL ES")
+set(SDL_RENDER_D3D12 OFF CACHE BOOL "Do not build with Direct3D 12 renderer")
+set(SDL_VULKAN OFF CACHE BOOL "Do not build with Vulkan support")
+set(SDL_RENDER_VULKAN OFF CACHE BOOL "Do not build with Vulkan renderer")
 
 FetchContent_Declare(
   sdl3
