@@ -3,6 +3,8 @@
 
 #include "SDL3/SDL.h"
 
+#include "Renderer/Private/deRHI_D3D11.h"
+
 namespace de
 {
 	class Application
@@ -30,6 +32,8 @@ namespace de
 	private:
 
 		SDL_Window* m_Window;
+
+		RHI_D3D11 m_RHI;
 	};
 }
 

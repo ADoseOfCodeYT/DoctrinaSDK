@@ -206,38 +206,30 @@ namespace de
 
 		featureLevel = D3D_FEATURE_LEVEL_11_0;
 
+
 		result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &swapChainDesc, &m_SwapChain, &m_Device, nullptr, &m_DeviceContext);
 		if (FAILED(result))
 		{
 			Console::Post("[de::RHI_D3D11] FAILED : D3D11CreateDeviceAndSwapChain()", Console::LogLevel::ExtremeError);
-
-
 			Initialised = false;
 			return;
 		}
-
 		result = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
 		if (FAILED(result))
 		{
 			Console::Post("[de::RHI_D3D11] FAILED : GetBuffer()", Console::LogLevel::ExtremeError);
-
-
 			Initialised = false;
 			return;
 		}
 
 		result = m_Device->CreateRenderTargetView(backBufferPtr, nullptr, &m_RenderTargetView);
+		backBufferPtr->Release();
 		if (FAILED(result))
 		{
 			Console::Post("[de::RHI_D3D11] FAILED : CreateRenderTargetView()", Console::LogLevel::ExtremeError);
-
-
 			Initialised = false;
 			return;
 		}
-
-		backBufferPtr->Release();
-		backBufferPtr = nullptr;
 
 		ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
 
@@ -481,8 +473,6 @@ namespace de
 		}
 
 		Console::Post("[de::RHI_D3D11] Shutdown", Console::LogLevel::Default);
-
-		return;
 	}
 
 	void RHI_D3D11::BeginFrame()
@@ -498,16 +488,14 @@ namespace de
 
 		m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
-		return;
+		m_DeviceContext->RSSetViewports(1, &m_Viewport);
 	}
 
 	void RHI_D3D11::FinishFrame()
 	{
-
 		// TODO : ADD VSYNC TOGGLE
 		m_SwapChain->Present(1, 0); // vsync
 
-		return;
 	}
 
 	ID3D11Device* RHI_D3D11::GetDevice()
@@ -523,25 +511,21 @@ namespace de
 	void RHI_D3D11::GetSwapChainNumerator(int& numerator)
 	{
 		numerator = m_Numerator;
-		return;
 	}
 
 	void RHI_D3D11::GetSwapChainDenominator(int& denominator)
 	{
 		denominator = m_Denominator;
-		return;
 	}
 
 	void RHI_D3D11::EnableZBuffer()
 	{
 		m_DeviceContext->OMSetDepthStencilState(m_DepthStencilState, 1);
-		return;
 	}
 
 	void RHI_D3D11::DisableZBuffer()
 	{
 		m_DeviceContext->OMSetDepthStencilState(m_DepthDisabledStencilState, 1);
-		return;
 	}
 
 	void RHI_D3D11::EnableAlphaBlending()
@@ -557,8 +541,6 @@ namespace de
 
 		// Turn on the alpha blending.
 		m_DeviceContext->OMSetBlendState(m_AlphaBlendingState, blendFactor, 0xffffffff);
-
-		return;
 	}
 
 	void RHI_D3D11::DisableAlphaBlending()
@@ -574,26 +556,21 @@ namespace de
 
 		// Turn on the alpha blending.
 		m_DeviceContext->OMSetBlendState(m_AlphaDisabledBlendingState, blendFactor, 0xffffffff);
-
-		return;
 	}
 
 	void RHI_D3D11::GetProjectionMatrix(XMMATRIX& projectionMatrix)
 	{
 		projectionMatrix = m_ProjectionMatrix;
-		return;
 	}
 
 	void RHI_D3D11::GetWorldMatrix(XMMATRIX& worldMatrix)
 	{
 		worldMatrix = m_WorldMatrix;
-		return;
 	}
 
 	void RHI_D3D11::GetOrthoMatrix(XMMATRIX& orthoMatrix)
 	{
 		orthoMatrix = m_OrthoMatrix;
-		return;
 	}
 	
 }
