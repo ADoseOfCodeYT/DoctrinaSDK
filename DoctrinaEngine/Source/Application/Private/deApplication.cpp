@@ -36,14 +36,9 @@ namespace de
 		assert(m_Window!= nullptr && "[de::Application] Window not set");
 		SDL_GetWindowSize(m_Window, &windowWidth, &windowHeight);
 
-		// fina-fucking-ly i managed to get the HWND. I must be stupid as fuck for not being able to use SDL_GetWindowProperties(), i just couldnt figure that out but atleast this works!!!!
-		HWND hwnd = reinterpret_cast<HWND>(SDL_GetWindowFromID(SDL_GetWindowID(m_Window)));
-		if (hwnd) {
-			Console::Post("[de::Application] Retrieved HWND", Console::LogLevel::Default);
-		} else {
-			Console::Post("[de::Application] Failed to retrieve HWND", Console::LogLevel::ExtremeError);
-			assert(false && "HWND retrieval failed");
-		}
+		// this is a hack, forgive me
+		HWND hwnd = FindWindow(nullptr, SDL_GetWindowTitle(m_Window));
+		assert(hwnd != nullptr);
 
 		m_RHI.Initialize(windowWidth, windowHeight, hwnd, false, 1000.0f, 0.3f);
 		

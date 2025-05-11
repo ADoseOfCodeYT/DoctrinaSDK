@@ -16,7 +16,8 @@ SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
         return SDL_APP_FAILURE;
     }
 
-    window = SDL_CreateWindow("Doctrina Editor", 640, 480, SDL_WINDOW_RESIZABLE);
+    window = SDL_CreateWindow("Doctrina Editor", 1280, 720, SDL_WINDOW_RESIZABLE);
+
 
     DoctrinaEditor.SetWindow(window);
 
