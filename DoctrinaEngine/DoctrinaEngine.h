@@ -9,8 +9,6 @@
 #include "Source/Core/Public/deVersion.h"
 #include "Source/Core/Public/deCVar.h"
 
-#include "Source/Renderer/Public/deRenderer.h"
-
 #include "Source/Tools/Public/deConsole.h"
 
 

@@ -4,6 +4,7 @@
 
 #include "Tools/Public/deConsole.h"
 
+#define RHI_DEBUG_LAYER 0
 
 namespace de
 {
@@ -206,8 +207,14 @@ namespace de
 
 		featureLevel = D3D_FEATURE_LEVEL_11_0;
 
+		UINT creationFlags = 0;
 
-		result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, 0, &featureLevel, 1, D3D11_SDK_VERSION, &swapChainDesc, &m_SwapChain, &m_Device, nullptr, &m_DeviceContext);
+		#if RHI_DEBUG_LAYER
+			creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+		#endif
+
+
+		result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, creationFlags, &featureLevel, 1, D3D11_SDK_VERSION, &swapChainDesc, &m_SwapChain, &m_Device, nullptr, &m_DeviceContext);
 		if (FAILED(result))
 		{
 			Console::Post("[de::RHI_D3D11] FAILED : D3D11CreateDeviceAndSwapChain()", Console::LogLevel::ExtremeError);
