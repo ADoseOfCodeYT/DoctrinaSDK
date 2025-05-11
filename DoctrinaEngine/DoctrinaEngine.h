@@ -6,10 +6,12 @@
 
 #include "Source/Application/Public/deApplication.h"
 
-#include "Source/Core/Public/deVersion.h"
 #include "Source/Core/Public/deCVar.h"
+#include "Source/Core/Public/deTimer.h"
+#include "Source/Core/Public/deVersion.h"
+
+#include "Source/Math/Public/deMath.h"
 
 #include "Source/Tools/Public/deConsole.h"
-
 
 #endif // !_DOCTRINAENGINE_H_

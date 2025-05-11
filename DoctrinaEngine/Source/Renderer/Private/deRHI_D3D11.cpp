@@ -486,9 +486,9 @@ namespace de
 	{
 		float color[4];
 
-		color[0] = 255.0f;
+		color[0] = 1.0f;
 		color[1] = 0.0f;
-		color[2] = 255.0f;
+		color[2] = 1.0f;
 		color[3] = 1.0f;
 
 		m_DeviceContext->ClearRenderTargetView(m_RenderTargetView, color);

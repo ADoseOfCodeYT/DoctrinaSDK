@@ -8,6 +8,8 @@
 #include "Core/Public/deVersion.h"
 #include "Tools/Public/deConsole.h"
 #include "Core/Public/deCVar.h"
+#include "Math/Public/deMath.h"
+
 
 using namespace de::CVar;
 
@@ -52,12 +54,18 @@ namespace de
 		return;
 	}
 
-	void Application::Run(double dt)
+	void Application::Run()
 	{
 		assert(Initialised && "[de::Application] Not initialised");
 
+		float dT = float(m_Timer.RecordElapsedSeconds());
+
+		const float targetDeltaTime = 1.0f / 60; // 60 hz
+
+		dT = Math::Clamp(dT, 0.0f, 0.5f);
+
 		FixedUpdate();
-		Update(dt);
+		Update(dT);
 	}
 
     void Application::FixedUpdate()
@@ -71,7 +79,6 @@ namespace de
 
 		m_RHI.FinishFrame();
 
-		SDL_UpdateWindowSurface(m_Window);
 	}
 
     void Application::SetWindow(SDL_Window *window)

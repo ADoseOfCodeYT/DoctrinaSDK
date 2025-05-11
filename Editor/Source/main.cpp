@@ -6,10 +6,6 @@ SDL_Window* window;
 
 Editor DoctrinaEditor;
 
-Uint64 NOW = SDL_GetPerformanceCounter();
-Uint64 LAST = 0;
-double DeltaTime = 0;
-
 SDL_AppResult SDL_AppInit(void** appstate, int argc, char* argv[]) {
     if (!SDL_Init(SDL_INIT_VIDEO)) 
     {
@@ -46,12 +42,8 @@ SDL_AppResult SDL_AppEvent(void* appstate, SDL_Event* event) {
 
 SDL_AppResult SDL_AppIterate(void* appstate) 
 {
-    LAST = NOW;
-    NOW = SDL_GetPerformanceCounter();
 
-    DeltaTime = (double)((NOW - LAST)*1000 / (double)SDL_GetPerformanceFrequency() );
-
-    DoctrinaEditor.Run(DeltaTime);
+    DoctrinaEditor.Run();
 
     SDL_UpdateWindowSurface(window);
 
