@@ -4,7 +4,7 @@
 
 #include "Tools/Public/deConsole.h"
 
-#define RHI_DEBUG_LAYER 0
+#define RHI_DEBUG_LAYER 1
 
 namespace de
 {
@@ -38,7 +38,7 @@ namespace de
 		VideoCardMemory = 0;
 	}
 
-	void RHI_D3D11::Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullScreen, float screenDepth, float screenNear)
+	void RHI_D3D11::Initialize(SDL_Window* window, float screenDepth, float screenNear)
 	{
 		HRESULT result;
 		IDXGIFactory* dxFactory;
@@ -66,6 +66,8 @@ namespace de
 		D3D11_RASTERIZER_DESC rasterDesc;
 		D3D11_DEPTH_STENCIL_DESC depthDisabledStencilDesc;
 		D3D11_BLEND_DESC blendStateDescription;
+
+		SDL_GetWindowSize(window, &m_WindowWidth, &m_WindowHeight);
 
 		result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&dxFactory);
 		if (FAILED(result))
@@ -125,9 +127,9 @@ namespace de
 
 		for (i = 0; i < numModes; i++)
 		{
-			if (displayModeList[i].Width == (unsigned int)screenWidth)
+			if (displayModeList[i].Width == (unsigned int)m_WindowWidth)
 			{
-				if (displayModeList[i].Height == (unsigned int)screenHeight)
+				if (displayModeList[i].Height == (unsigned int)m_WindowHeight)
 				{
 					m_Numerator = displayModeList[i].RefreshRate.Numerator;
 					m_Denominator = displayModeList[i].RefreshRate.Denominator;
@@ -173,8 +175,8 @@ namespace de
 
 		swapChainDesc.BufferCount = 1; // only one backbuffer, i might add double or triple buffering in the future
 
-		swapChainDesc.BufferDesc.Width = screenWidth;
-		swapChainDesc.BufferDesc.Height = screenHeight;
+		swapChainDesc.BufferDesc.Width = m_WindowWidth;
+		swapChainDesc.BufferDesc.Height = m_WindowHeight;
 
 		swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM; // 32 bit
 
@@ -184,19 +186,22 @@ namespace de
 
 		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 
+		HWND hwnd = (HWND)SDL_GetPointerProperty(SDL_GetWindowProperties(window), SDL_PROP_WINDOW_WIN32_HWND_POINTER, NULL);
+		assert(hwnd != nullptr);
+
 		swapChainDesc.OutputWindow = hwnd;
 
 		swapChainDesc.SampleDesc.Count = 1;
 		swapChainDesc.SampleDesc.Quality = 0;
 
-		if (fullScreen)
-		{
-			swapChainDesc.Windowed = false;
-		}
-		else
-		{
-			swapChainDesc.Windowed = true;
-		}
+		// if (fullScreen)
+		// {
+		// 	swapChainDesc.Windowed = false;
+		// }
+		// else
+		// {
+		swapChainDesc.Windowed = true;
+		// }
 
 		swapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 		swapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
@@ -231,6 +236,7 @@ namespace de
 
 		result = m_Device->CreateRenderTargetView(backBufferPtr, nullptr, &m_RenderTargetView);
 		backBufferPtr->Release();
+		backBufferPtr = nullptr;
 		if (FAILED(result))
 		{
 			Console::Post("[de::RHI_D3D11] FAILED : CreateRenderTargetView()", Console::LogLevel::ExtremeError);
@@ -240,8 +246,8 @@ namespace de
 
 		ZeroMemory(&depthBufferDesc, sizeof(depthBufferDesc));
 
-		depthBufferDesc.Width = screenWidth;
-		depthBufferDesc.Height = screenHeight;
+		depthBufferDesc.Width = m_WindowWidth;
+		depthBufferDesc.Height = m_WindowHeight;
 		depthBufferDesc.MipLevels = 1;
 		depthBufferDesc.ArraySize = 1;
 		depthBufferDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -335,8 +341,8 @@ namespace de
 
 		m_DeviceContext->RSSetState(m_RasterState);
 
-		m_Viewport.Width = (float)screenWidth;
-		m_Viewport.Height = (float)screenHeight;
+		m_Viewport.Width = (float)m_WindowWidth;
+		m_Viewport.Height = (float)m_WindowHeight;
 		m_Viewport.MinDepth = 0.0f;
 		m_Viewport.MaxDepth = 1.0f;
 		m_Viewport.TopLeftX = 0.0f;
@@ -345,13 +351,13 @@ namespace de
 		m_DeviceContext->RSSetViewports(1, &m_Viewport);
 
 		fieldOfView = 3.141592654f / 4.0f;
-		screenAspect = (float)screenWidth / (float)screenHeight;
+		screenAspect = (float)m_WindowWidth / (float)m_WindowHeight;
 
 		m_ProjectionMatrix = XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
 
 		m_WorldMatrix = XMMatrixIdentity();
 
-		m_OrthoMatrix = XMMatrixOrthographicLH((float)screenWidth, (float)screenHeight, screenNear, screenDepth);
+		m_OrthoMatrix = XMMatrixOrthographicLH((float)m_WindowWidth, (float)m_WindowHeight, screenNear, screenDepth);
 
 		ZeroMemory(&depthDisabledStencilDesc, sizeof(depthDisabledStencilDesc));
 
@@ -414,6 +420,8 @@ namespace de
 		Console::Post("[de::RHI_D3D11] Initialised", Console::LogLevel::Default);
 
 		Initialised = true;
+
+		
 	}
 
 	void RHI_D3D11::Shutdown()
@@ -437,6 +445,36 @@ namespace de
 			m_DeviceContext = nullptr;
 		}
 
+		if (m_RenderTargetView)
+		{
+			m_RenderTargetView->Release();
+			m_RenderTargetView = nullptr;
+		}
+
+		if (m_DepthStencilBuffer)
+		{
+			m_DepthStencilBuffer->Release();
+			m_DepthStencilBuffer = nullptr;
+		}
+
+		if (m_DepthStencilState)
+		{
+			m_DepthStencilState->Release();
+			m_DepthStencilState = nullptr;
+		}
+
+		if (m_DepthDisabledStencilState)
+		{
+			m_DepthDisabledStencilState->Release();
+			m_DepthDisabledStencilState = nullptr;
+		}
+
+		if (m_DepthStencilView)
+		{
+			m_DepthStencilView->Release();
+			m_DepthStencilView = nullptr;
+		}
+
 		if (m_RasterState)
 		{
 			m_RasterState->Release();
@@ -455,30 +493,6 @@ namespace de
 			m_AlphaDisabledBlendingState = nullptr;
 		}
 
-		if (m_DepthStencilView)
-		{
-			m_DepthStencilView->Release();
-			m_DepthStencilView = nullptr;
-		}
-
-		if (m_DepthStencilState)
-		{
-			m_DepthStencilState->Release();
-			m_DepthStencilState = nullptr;
-		}
-
-		if (m_DepthStencilBuffer)
-		{
-			m_DepthStencilBuffer->Release();
-			m_DepthStencilBuffer = nullptr;
-		}
-
-		if (m_RenderTargetView)
-		{
-			m_RenderTargetView->Release();
-			m_RenderTargetView = nullptr;
-		}
-
 		Console::Post("[de::RHI_D3D11] Shutdown", Console::LogLevel::Default);
 	}
 
@@ -494,8 +508,6 @@ namespace de
 		m_DeviceContext->ClearRenderTargetView(m_RenderTargetView, color);
 
 		m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-
-		m_DeviceContext->RSSetViewports(1, &m_Viewport);
 	}
 
 	void RHI_D3D11::FinishFrame()

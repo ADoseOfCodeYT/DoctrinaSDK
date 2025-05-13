@@ -1,7 +1,6 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
 
-#define SDL_HINT_RENDER_DRIVER "direct3d11"
 #define SDL_MAIN_USE_CALLBACKS 1
 #include "SDL3/SDL.h"
 #include "SDL3/SDL_main.h"

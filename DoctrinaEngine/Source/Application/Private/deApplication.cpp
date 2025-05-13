@@ -33,16 +33,7 @@ namespace de
 
 		Console::Post("[de::Application] Initialised", Console::LogLevel::Default);
 
-		int windowWidth, windowHeight;
-
-		assert(m_Window!= nullptr && "[de::Application] Window not set");
-		SDL_GetWindowSize(m_Window, &windowWidth, &windowHeight);
-
-		// this is a hack, forgive me
-		HWND hwnd = FindWindow(nullptr, SDL_GetWindowTitle(m_Window));
-		assert(hwnd != nullptr);
-
-		m_RHI.Initialize(windowWidth, windowHeight, hwnd, false, 1000.0f, 0.3f);
+		Renderer::Initialize(m_Window);
 		
 		Initialised = true;
 	}
@@ -50,6 +41,8 @@ namespace de
 	void Application::Shutdown()
 	{
 		Console::Post("[de::Application] Shutdown", Console::LogLevel::Default);
+
+		Renderer::Shutdown();
 
 		return;
 	}
@@ -66,6 +59,8 @@ namespace de
 
 		FixedUpdate();
 		Update(dT);
+
+		Renderer::Render();
 	}
 
     void Application::FixedUpdate()
@@ -75,10 +70,7 @@ namespace de
 
 	void Application::Update(double dt)
 	{
-		m_RHI.BeginFrame();
-
-		m_RHI.FinishFrame();
-
+		
 	}
 
     void Application::SetWindow(SDL_Window *window)

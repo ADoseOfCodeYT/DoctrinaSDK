@@ -11,7 +11,6 @@
 // Anyways, the way this works is that CVarSystem is an interface (and a singleton) and CVarSystemImpl is the actual implementation
 // Legit just copied https://vkguide.dev/docs/extra-chapter/cvar_system/ (fucking life saver)
 
-
 namespace de
 {
 	class CVarParam;

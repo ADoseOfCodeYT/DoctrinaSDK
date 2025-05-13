@@ -6,7 +6,11 @@
 #pragma comment(lib, "d3dcompiler.lib")
 
 #include <d3d11.h>
-#include <DirectXMath.h>
+
+
+#include "SDL3/SDL.h"
+
+#include "Math/Public/deMath.h"
 
 using namespace DirectX;
 
@@ -19,7 +23,7 @@ namespace de
 		RHI_D3D11();
 		virtual ~RHI_D3D11() = default;
 
-		void Initialize(int screenWidth, int screenHeight, HWND hwnd, bool fullscreen, float screenDepth, float screenNear);
+		void Initialize(SDL_Window* window, float screenDepth, float screenNear);
 		void Shutdown();
 
 		void BeginFrame();
@@ -45,9 +49,9 @@ namespace de
 
 		bool Initialised = false;
 
-
 		char VideoCardDesc[128];
 		int VideoCardMemory;
+
 	private:
 
 		IDXGISwapChain* m_SwapChain;
@@ -74,7 +78,15 @@ namespace de
 
 		int m_Numerator;
 		int m_Denominator;
+
+		int m_WindowWidth;
+		int m_WindowHeight;
 	};
+
+	
+
 }
+
+
 
 #endif // !_DERHI_D3D11_H_

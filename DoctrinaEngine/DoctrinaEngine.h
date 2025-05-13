@@ -12,6 +12,8 @@
 
 #include "Source/Math/Public/deMath.h"
 
+#include "Source/Renderer/Public/deRenderer.h"
+
 #include "Source/Tools/Public/deConsole.h"
 
 #endif // !_DOCTRINAENGINE_H_

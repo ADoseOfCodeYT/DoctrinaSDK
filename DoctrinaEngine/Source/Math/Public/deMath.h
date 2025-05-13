@@ -1,6 +1,16 @@
 #ifndef _DEMATH_H_
 #define _DEMATH_H_
 
+#include <cmath>
+
+#include <DirectXMath.h>
+#include <DirectXPackedVector.h>
+#include <DirectXCollision.h>
+
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif // NOMINMAX
+
 namespace de::Math
 {
     template <typename T>

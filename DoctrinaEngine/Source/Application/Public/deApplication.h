@@ -3,7 +3,7 @@
 
 #include "SDL3/SDL.h"
 
-#include "Renderer/Private/deRHI_D3D11.h"
+#include "Renderer/Public/deRenderer.h"
 #include "Core/Public/deTimer.h"
 
 namespace de
@@ -33,7 +33,6 @@ namespace de
 	private:
 
 		SDL_Window* m_Window;
-		RHI_D3D11 m_RHI;
 
 		Timer m_Timer;
 	};
