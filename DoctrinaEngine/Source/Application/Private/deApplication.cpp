@@ -76,5 +76,6 @@ namespace de
     void Application::SetWindow(SDL_Window *window)
     {
 		m_Window = window;
+		Renderer::ResizeWindow();
 	}
 }

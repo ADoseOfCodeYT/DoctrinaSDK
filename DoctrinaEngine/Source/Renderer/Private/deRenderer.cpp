@@ -9,6 +9,11 @@ namespace de::Renderer
         RHI.Initialize(window, 1000.0f, 0.3f);
     }
 
+    void ResizeWindow()
+    {
+        RHI.ResizeWindow();
+    }
+
     void Render()
     {
         RHI.BeginFrame();

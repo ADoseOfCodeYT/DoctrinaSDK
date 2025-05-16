@@ -10,6 +10,8 @@ namespace de::Renderer
     void Initialize(SDL_Window* window);
     void Shutdown();
 
+    void ResizeWindow();
+
     void Render();
 
     extern RHI_D3D11 RHI;

@@ -29,6 +29,8 @@ namespace de
 		void BeginFrame();
 		void FinishFrame();
 
+		void ResizeWindow();
+
 		ID3D11Device* GetDevice();
 		ID3D11DeviceContext* GetDeviceContext();
 
@@ -72,6 +74,8 @@ namespace de
 		XMMATRIX m_OrthoMatrix;
 
 		D3D11_VIEWPORT m_Viewport;
+
+		SDL_Window* m_Window;
 
 		ID3D11BlendState* m_AlphaBlendingState;
 		ID3D11BlendState* m_AlphaDisabledBlendingState;

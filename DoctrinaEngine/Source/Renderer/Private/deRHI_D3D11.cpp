@@ -67,6 +67,10 @@ namespace de
 		D3D11_DEPTH_STENCIL_DESC depthDisabledStencilDesc;
 		D3D11_BLEND_DESC blendStateDescription;
 
+		assert(window != nullptr);
+
+		m_Window = window;
+
 		SDL_GetWindowSize(window, &m_WindowWidth, &m_WindowHeight);
 
 		result = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**)&dxFactory);
@@ -515,6 +519,40 @@ namespace de
 		// TODO : ADD VSYNC TOGGLE
 		m_SwapChain->Present(1, 0); // vsync
 
+	}
+
+	void RHI_D3D11::ResizeWindow()
+	{
+		if(Initialised)
+		{
+			HRESULT result;
+			D3D11_VIEWPORT newViewPort;
+			ID3D11Texture2D* currentBuffer;
+
+			
+			m_RenderTargetView->Release();
+
+        	result = m_SwapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
+
+        	result = m_SwapChain->GetBuffer(0, __uuidof( ID3D11Texture2D),(void**) &currentBuffer );
+
+        	result = m_Device->CreateRenderTargetView(currentBuffer, nullptr, &m_RenderTargetView);
+
+        	currentBuffer->Release();
+
+			SDL_GetWindowSize(m_Window, &m_WindowWidth, &m_WindowHeight);
+
+        	m_DeviceContext->OMSetRenderTargets(1, &m_RenderTargetView, nullptr );
+        	
+        	newViewPort.Width = m_WindowWidth;
+        	newViewPort.Height = m_WindowHeight;
+        	newViewPort.MinDepth = 0.0f;
+        	newViewPort.MaxDepth = 1.0f;
+        	newViewPort.TopLeftX = 0;
+        	newViewPort.TopLeftY = 0;
+
+        	m_DeviceContext->RSSetViewports( 1, &newViewPort );
+		}
 	}
 
 	ID3D11Device* RHI_D3D11::GetDevice()
