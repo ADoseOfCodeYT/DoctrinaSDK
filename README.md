@@ -4,17 +4,18 @@ Doctrina SDK is a small hobby SDK with a 3D C++ game engine and an editor that u
 There are no plans to make fully-fledged games with this sdk
 
 - [Trello Board](https://trello.com/b/0X4gj5H7/doctrina-sdk)
+- [Features](FEATURES.md)
 
-## How to build
+
+## How to build 
 
 ### Windows
 
-1. Open the main folder with Visual Studio
-2. Open CMakeLists.txt and press Ctrl + S to generate project
-3. Make sure that Editor.exe is startup item and press Ctrl + F5
+You can build and run from the terminal:
 
-### Linux
+    cmake -S. -BBUILD
+    cmake --build BUILD --config Release
+    & "BUILD\Editor\Release\Editor.exe"
 
-Linux isn't supported yet :(
-
+Just make sure that you are running this in the same folder as the root [CMakeLists.txt](CMakeLists.txt)
 

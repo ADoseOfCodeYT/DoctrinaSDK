@@ -24,6 +24,7 @@ set(SDL_SHARED OFF CACHE BOOL "Do not build SDL3 as a shared library")
 set(SDL_OPENGL OFF CACHE BOOL "Do not build with OpenGL")
 set(SDL_OPENGLES OFF CACHE BOOL "Do not build with OpenGL ES")
 set(SDL_RENDER_D3D12 OFF CACHE BOOL "Do not build with Direct3D 12 renderer")
+set(SDL_RENDER_D3D11 OFF CACHE BOOL "Do not build with Direct3D 11 renderer")
 set(SDL_VULKAN OFF CACHE BOOL "Do not build with Vulkan support")
 set(SDL_RENDER_VULKAN OFF CACHE BOOL "Do not build with Vulkan renderer")
 

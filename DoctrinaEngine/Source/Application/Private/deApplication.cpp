@@ -33,6 +33,8 @@ namespace de
 
 		Console::Post("[de::Application] Initialised", Console::LogLevel::Default);
 
+		assert(m_Window != nullptr);
+
 		Renderer::Initialize(m_Window);
 		
 		Initialised = true;

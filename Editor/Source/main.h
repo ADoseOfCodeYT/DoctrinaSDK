@@ -8,5 +8,4 @@
 
 #include "DoctrinaEngine.h"
 
-
 #endif // !_MAIN_H_
