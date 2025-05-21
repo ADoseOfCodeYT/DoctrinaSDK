@@ -23,9 +23,9 @@ namespace de
 
 		m_RasterState = nullptr;
 
-		m_ProjectionMatrix = {};
-		m_WorldMatrix = {};
-		m_OrthoMatrix = {};
+		ProjectionMatrix = {};
+		WorldMatrix = {};
+		OrthoMatrix = {};
 
 		m_Viewport = {};
 
@@ -357,11 +357,11 @@ namespace de
 		fieldOfView = 3.141592654f / 4.0f;
 		screenAspect = (float)m_WindowWidth / (float)m_WindowHeight;
 
-		m_ProjectionMatrix = XMMatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
+		ProjectionMatrix = Math::MatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
 
-		m_WorldMatrix = XMMatrixIdentity();
+		WorldMatrix = Math::IdentityMatrix();
 
-		m_OrthoMatrix = XMMatrixOrthographicLH((float)m_WindowWidth, (float)m_WindowHeight, screenNear, screenDepth);
+		OrthoMatrix = Math::MatrixOrthographicLH((float)m_WindowWidth, (float)m_WindowHeight, screenNear, screenDepth);
 
 		ZeroMemory(&depthDisabledStencilDesc, sizeof(depthDisabledStencilDesc));
 
@@ -613,21 +613,6 @@ namespace de
 
 		// Turn on the alpha blending.
 		m_DeviceContext->OMSetBlendState(m_AlphaDisabledBlendingState, blendFactor, 0xffffffff);
-	}
-
-	void RHI_D3D11::GetProjectionMatrix(XMMATRIX& projectionMatrix)
-	{
-		projectionMatrix = m_ProjectionMatrix;
-	}
-
-	void RHI_D3D11::GetWorldMatrix(XMMATRIX& worldMatrix)
-	{
-		worldMatrix = m_WorldMatrix;
-	}
-
-	void RHI_D3D11::GetOrthoMatrix(XMMATRIX& orthoMatrix)
-	{
-		orthoMatrix = m_OrthoMatrix;
 	}
 	
 }

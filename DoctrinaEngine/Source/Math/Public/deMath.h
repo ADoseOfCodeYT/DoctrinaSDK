@@ -3,9 +3,7 @@
 
 #include <cmath>
 
-#include <DirectXMath.h>
-#include <DirectXPackedVector.h>
-#include <DirectXCollision.h>
+#include "Math/Private/deMathAliases.h"
 
 #ifndef NOMINMAX
 #define NOMINMAX
@@ -17,7 +15,8 @@ namespace de::Math
     constexpr T Clamp(T x, T a, T b)
     {
     	return x < a ? a : (x > b ? b : x);
-    }
+    }                                                                               
+    
 }
 
-#endif
+#endif // ! _DEMATH_H_

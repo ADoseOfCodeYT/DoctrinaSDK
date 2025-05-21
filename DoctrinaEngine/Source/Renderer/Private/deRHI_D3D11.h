@@ -12,8 +12,6 @@
 
 #include "Math/Public/deMath.h"
 
-using namespace DirectX;
-
 namespace de
 {
 	class RHI_D3D11
@@ -43,16 +41,16 @@ namespace de
 		void EnableAlphaBlending();
 		void DisableAlphaBlending();
 
-		void GetProjectionMatrix(XMMATRIX& projectionMatrix);
-		void GetWorldMatrix(XMMATRIX& worldMatrix);
-		void GetOrthoMatrix(XMMATRIX& orthoMatrix);
-
 	public:
 
 		bool Initialised = false;
 
 		char VideoCardDesc[128];
 		int VideoCardMemory;
+
+		Math::Matrix ProjectionMatrix;
+		Math::Matrix WorldMatrix;
+		Math::Matrix OrthoMatrix;
 
 	private:
 
@@ -67,11 +65,7 @@ namespace de
 		ID3D11DepthStencilState* m_DepthDisabledStencilState;
 		ID3D11DepthStencilView* m_DepthStencilView;
 
-		ID3D11RasterizerState* m_RasterState;
-
-		XMMATRIX m_ProjectionMatrix;
-		XMMATRIX m_WorldMatrix;
-		XMMATRIX m_OrthoMatrix;
+		ID3D11RasterizerState* m_RasterState;	
 
 		D3D11_VIEWPORT m_Viewport;
 

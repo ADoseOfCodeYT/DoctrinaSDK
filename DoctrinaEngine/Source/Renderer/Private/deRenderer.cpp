@@ -1,5 +1,7 @@
 #include "Renderer/Public/deRenderer.h"
 
+#include "Math/Public/deMath.h"
+
 namespace de::Renderer
 {
     RHI_D3D11 RHI;
