@@ -10,8 +10,8 @@
             "installDir": "${sourceDir}/OUT/install/${presetName}",
             "cacheVariables": 
             {
-                "CMAKE_C_COMPILER": "cl.exe",
-                "CMAKE_CXX_COMPILER": "cl.exe"
+                "CMAKE_C_COMPILER": "Clang",
+                "CMAKE_CXX_COMPILER": "Clang++"
             },
             "condition": 
             {
