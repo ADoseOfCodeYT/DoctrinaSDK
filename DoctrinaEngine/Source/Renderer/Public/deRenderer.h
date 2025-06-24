@@ -5,6 +5,8 @@
 
 #include "Renderer/Private/deRHI_D3D11.h"
 
+#include "Map/Public/deMap.h"
+
 namespace de::renderer
 {
     void Initialize(SDL_Window* window);
@@ -13,8 +15,10 @@ namespace de::renderer
     void ResizeWindow();
 
     void Render();
+    void Update(float dT);
 
     extern RHI_D3D11 g_RHI;
+    extern map::CameraComponent g_RenderCam;
 }
 
 

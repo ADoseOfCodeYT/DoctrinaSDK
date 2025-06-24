@@ -5,6 +5,7 @@
 namespace de::renderer
 {
     RHI_D3D11 g_RHI;
+    map::CameraComponent g_RenderCam;
 
     void Initialize(SDL_Window* window)
     {
@@ -22,6 +23,8 @@ namespace de::renderer
 
 		//3D Rendering
 
+        g_RenderCam.Draw();
+
 		g_RHI.DisableZBuffer();
 
 		//2D Rendering
@@ -30,6 +33,11 @@ namespace de::renderer
 
 		g_RHI.FinishFrame();
 
+    }
+
+    void Update(float dT)
+    {
+        
     }
 
     void Shutdown()

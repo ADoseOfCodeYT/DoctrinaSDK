@@ -20,7 +20,7 @@ namespace de
 		void Run();
 
 		virtual void FixedUpdate();
-		virtual void Update(double dt);
+		virtual void Update(float dT);
 
 		void SetWindow(SDL_Window* window);
 

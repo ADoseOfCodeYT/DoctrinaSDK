@@ -3,6 +3,7 @@
 #include <cassert>
 #include <windows.h>
 
+#include "Renderer/Public/deRenderer.h"
 #include "SDL3/SDL_video.h"
 
 #include "Core/Public/deVersion.h"
@@ -32,6 +33,7 @@ namespace de
 		}
 
 		console::Post("[de::Application] Initialised", console::LogLevel::Default);
+		console::Post("Doctrina Engine (" + version::ENGINE_VERSION + ") Intialised", console::LogLevel::Default);
 
 		assert(m_Window != nullptr);
 
@@ -70,9 +72,9 @@ namespace de
 
     }
 
-	void Application::Update(double dt)
+	void Application::Update(float dT)
 	{
-		
+		renderer::Update(dT);
 	}
 
     void Application::SetWindow(SDL_Window *window)
