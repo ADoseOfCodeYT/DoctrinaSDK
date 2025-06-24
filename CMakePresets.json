@@ -6,8 +6,8 @@
             "name": "Windows-Base",
             "hidden": true,
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/BUILD/${presetName}",
-            "installDir": "${sourceDir}/OUT/install/${presetName}",
+            "binaryDir": "${sourceDir}/build",
+            "installDir": "${sourceDir}/out/install",
             "cacheVariables": 
             {
                 "CMAKE_C_COMPILER": "Clang",

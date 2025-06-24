@@ -33,7 +33,8 @@
 
 #Build Results
 
-BUILD/
+build/
+out/
 
 #Visual Studio
 
@@ -43,3 +44,7 @@ BUILD/
 #Jetbrains 
 
 .idea/
+
+#clangd
+
+.cache/

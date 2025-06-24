@@ -14,6 +14,7 @@ project ("DoctrinaSDK" CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE CXX_EXTENSIONS OFF)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 include(FetchContent)
 
@@ -21,6 +22,8 @@ include(FetchContent)
 
 set(SDL_STATIC ON CACHE BOOL "Build SDL3 as a static library")
 set(SDL_SHARED OFF CACHE BOOL "Do not build SDL3 as a shared library")
+set(SDL_TEST OFF CACHE BOOL "Do not build test programs")
+set(SDL_INSTALL_TESTS OFF CACHE BOOL "Do not install test programs")
 set(SDL_OPENGL OFF CACHE BOOL "Do not build with OpenGL")
 set(SDL_OPENGLES OFF CACHE BOOL "Do not build with OpenGLES")
 set(SDL_RENDER_D3D12 OFF CACHE BOOL "Do not build with Direct3D 12 renderer")

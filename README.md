@@ -9,13 +9,16 @@ There are no plans to make fully-fledged games with this sdk
 
 ## How to build 
 
+Doctrina SDK uses clang as its compiler so make sure you have the latest clang compiler: https://github.com/llvm/llvm-project/releases
+
 ### Windows
+
 
 You can build and run from the terminal:
 
-    cmake -S. -BBUILD
-    cmake --build BUILD --config Release
-    & "BUILD\Editor\Release\Editor.exe"
+    cmake -S. -Bbuild
+    cmake --build build --config Release
+    & "build\Editor\Release\Editor.exe"
 
 Just make sure that you are running this in the same folder as the root [CMakeLists.txt](CMakeLists.txt)
 
