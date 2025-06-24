@@ -11,7 +11,7 @@
 #define MAX_FLOAT_CVARS 1000
 #define MAX_STRING_CVARS 200
 
-de::CVar::CVar_Int CVAR_protection_enabled("protection_enabled", 1, de::CVar::ProtectionLevel::UnProtected);
+de::cvar::CVar_Int CVAR_protection_enabled("protection_enabled", 1, de::cvar::ProtectionLevel::UnProtected);
 
 namespace de
 {
@@ -30,7 +30,7 @@ namespace de
 		int32_t ArrayIndex;
 
 		CVarType Type;
-		CVar::ProtectionLevel ProtectionLvl;
+		cvar::ProtectionLevel ProtectionLvl;
 		std::string Name;
 	};
 
@@ -205,7 +205,7 @@ namespace de
 		}
 		else
 		{
-			Console::Post("CVar couldn't be found", Console::LogLevel::Warning);
+			console::Post("CVar couldn't be found", console::LogLevel::Warning);
 			return 0.0;
 		}
 	}
@@ -219,7 +219,7 @@ namespace de
 		}
 		else
 		{
-			Console::Post("CVar couldn't be found", Console::LogLevel::Warning);
+			console::Post("CVar couldn't be found", console::LogLevel::Warning);
 			return 0;
 		}
 	}
@@ -271,13 +271,13 @@ namespace de
 		{
 			switch (cvar->ProtectionLvl)
 			{
-			case CVar::ProtectionLevel::UnProtected:
+			case cvar::ProtectionLevel::UnProtected:
 				SetCVarCurrent<double>(hash, value);
 				break;
-			case CVar::ProtectionLevel::Protected:
+			case cvar::ProtectionLevel::Protected:
 				if (CVAR_protection_enabled.Get())
 				{
-					Console::Post("CVar : " + cvar->Name + " cant be changed because it is a protected CVar. Set protection_enabled to 0 to change the value of this CVar", Console::LogLevel::Warning);
+					console::Post("CVar : " + cvar->Name + " cant be changed because it is a protected CVar. Set protection_enabled to 0 to change the value of this CVar", console::LogLevel::Warning);
 				}
 				else
 				{
@@ -298,13 +298,13 @@ namespace de
 		{
 			switch (cvar->ProtectionLvl)
 			{
-			case CVar::ProtectionLevel::UnProtected:
+			case cvar::ProtectionLevel::UnProtected:
 				SetCVarCurrent<int>(hash, value);
 				break;
-			case CVar::ProtectionLevel::Protected:
+			case cvar::ProtectionLevel::Protected:
 				if (CVAR_protection_enabled.Get())
 				{
-					Console::Post("CVar : " + cvar->Name + " cant be changed because it is a protected CVar. Set protection_enabled to 0 to change the value of this CVar", Console::LogLevel::Warning);
+					console::Post("CVar : " + cvar->Name + " cant be changed because it is a protected CVar. Set protection_enabled to 0 to change the value of this CVar", console::LogLevel::Warning);
 				}
 				else
 				{
@@ -325,13 +325,13 @@ namespace de
 		{
 			switch (cvar->ProtectionLvl)
 			{
-			case CVar::ProtectionLevel::UnProtected:
+			case cvar::ProtectionLevel::UnProtected:
 				SetCVarCurrent<std::string>(hash, value);
 				break;
-			case CVar::ProtectionLevel::Protected:
+			case cvar::ProtectionLevel::Protected:
 				if (CVAR_protection_enabled.Get())
 				{
-					Console::Post("CVar : " + cvar->Name + " cant be changed because it is a protected CVar. Set protection_enabled to 0 to change the value of this CVar", Console::LogLevel::Warning);
+					console::Post("CVar : " + cvar->Name + " cant be changed because it is a protected CVar. Set protection_enabled to 0 to change the value of this CVar", console::LogLevel::Warning);
 				}
 				else
 				{
@@ -410,9 +410,9 @@ namespace de
 		CVarSystemImpl::Get()->GetCVarArray<T>()->SetCurrent(data, index);
 	}
 	
-	namespace CVar
+	namespace cvar
 	{
-		CVar_Float::CVar_Float(const char* name, double defaultValue, CVar::ProtectionLevel protectionLvl)
+		CVar_Float::CVar_Float(const char* name, double defaultValue, cvar::ProtectionLevel protectionLvl)
 		{
 			CVarParam* cvar = CVarSystem::Get()->CreateFloatCVar(name, defaultValue, defaultValue);
 			cvar->ProtectionLvl = protectionLvl;
@@ -445,7 +445,7 @@ namespace de
 			SetCVarCurrentByIndex<CVarType>(index, f);
 		}
 
-		CVar_Int::CVar_Int(const char* name, int32_t defaultValue, CVar::ProtectionLevel protectionLvl)
+		CVar_Int::CVar_Int(const char* name, int32_t defaultValue, cvar::ProtectionLevel protectionLvl)
 		{
 			CVarParam* cvar = CVarSystem::Get()->CreateIntCVar(name, defaultValue, defaultValue);
 			cvar->ProtectionLvl = protectionLvl;
@@ -474,7 +474,7 @@ namespace de
 			Set(enabled ? 0 : 1);
 		}
 
-		CVar_String::CVar_String(const char* name , const char* defaultValue, CVar::ProtectionLevel protectionLvl)
+		CVar_String::CVar_String(const char* name , const char* defaultValue, cvar::ProtectionLevel protectionLvl)
 		{
 			CVarParam* cvar = CVarSystem::Get()->CreateStringCVar(name, defaultValue, defaultValue);
 			cvar->ProtectionLvl = protectionLvl;

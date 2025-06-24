@@ -3,14 +3,14 @@
 
 #include <string>
 
-namespace de :: Console
+namespace de::console
 {
 	enum class LogLevel
 	{
 		Default,
 		Warning,
 		Error,
-		ExtremeError // will bring console to front
+		ExtremeError // will bring console:: to front
 	};
 
 	void Toggle();

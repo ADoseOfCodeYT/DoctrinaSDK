@@ -8,7 +8,7 @@
 // Header file which aliases DirectX types
 // It is included in deMath.h
 
-namespace de::Math
+namespace de::math
 {
     using Vector2 = DirectX::XMFLOAT2;
     using Vector3 = DirectX::XMFLOAT3;

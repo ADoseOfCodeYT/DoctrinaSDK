@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace de::Version
+namespace de::version
 {
 	const int ENGINE_MAJOR = 0;
 	const int ENGINE_MINOR = 4;

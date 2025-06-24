@@ -6,7 +6,7 @@
 namespace de
 {
 
-	void Console::Post(const char* message, LogLevel level)
+	void console::Post(const char* message, LogLevel level)
 	{
 
 #if DEBUG
@@ -14,16 +14,16 @@ namespace de
 
 		switch (level)
 		{
-		case Console::LogLevel::Default:
+		case console::LogLevel::Default:
 			levelText = "";
 			break;
-		case Console::LogLevel::Warning:
+		case console::LogLevel::Warning:
 			levelText = "[WARNING] ";
 			break;
-		case Console::LogLevel::Error:
+		case console::LogLevel::Error:
 			levelText = "[ERROR] ";
 			break;
-		case Console::LogLevel::ExtremeError:
+		case console::LogLevel::ExtremeError:
 			levelText = "[EXTREME ERROR] ";
 			break;
 		default:
@@ -34,7 +34,7 @@ namespace de
 #endif // DEBUG
 	}
 
-	void Console::Post(const std::string& message, LogLevel level)
+	void console::Post(const std::string& message, LogLevel level)
 	{
 
 #if DEBUG
@@ -42,16 +42,16 @@ namespace de
 
 		switch (level)
 		{
-		case Console::LogLevel::Default:
+		case console::LogLevel::Default:
 			levelText = "";
 			break;
-		case Console::LogLevel::Warning:
+		case console::LogLevel::Warning:
 			levelText = "[WARNING] ";
 			break;
-		case Console::LogLevel::Error:
+		case console::LogLevel::Error:
 			levelText = "[ERROR] ";
 			break;
-		case Console::LogLevel::ExtremeError:
+		case console::LogLevel::ExtremeError:
 			levelText = "[EXTREME ERROR] ";
 			break;
 		default:

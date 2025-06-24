@@ -11,7 +11,7 @@
 #include "Math/Public/deMath.h"
 
 
-using namespace de::CVar;
+using namespace de::cvar;
 
 namespace de
 {
@@ -26,25 +26,25 @@ namespace de
 
 		if (Initialised)
 		{
-			Console::Post("[de::Application] Already initialised", Console::LogLevel::Warning);
+			console::Post("[de::Application] Already initialised", console::LogLevel::Warning);
 
 			return;
 		}
 
-		Console::Post("[de::Application] Initialised", Console::LogLevel::Default);
+		console::Post("[de::Application] Initialised", console::LogLevel::Default);
 
 		assert(m_Window != nullptr);
 
-		Renderer::Initialize(m_Window);
+		renderer::Initialize(m_Window);
 		
 		Initialised = true;
 	}
 
 	void Application::Shutdown()
 	{
-		Console::Post("[de::Application] Shutdown", Console::LogLevel::Default);
+		console::Post("[de::Application] Shutdown", console::LogLevel::Default);
 
-		Renderer::Shutdown();
+		renderer::Shutdown();
 
 		return;
 	}
@@ -57,12 +57,12 @@ namespace de
 
 		const float targetDeltaTime = 1.0f / 60; // 60 hz
 
-		dT = Math::Clamp(dT, 0.0f, 0.5f);
+		dT = math::Clamp(dT, 0.0f, 0.5f);
 
 		FixedUpdate();
 		Update(dT);
 
-		Renderer::Render();
+		renderer::Render();
 	}
 
     void Application::FixedUpdate()
@@ -78,6 +78,6 @@ namespace de
     void Application::SetWindow(SDL_Window *window)
     {
 		m_Window = window;
-		Renderer::ResizeWindow();
+		renderer::ResizeWindow();
 	}
 }

@@ -49,13 +49,13 @@ namespace de
 		using CVarType = T;
 	};
 
-	namespace CVar
+	namespace cvar
 	{
 		enum class ProtectionLevel : uint32_t
 		{
 			None = 0,
 			UnProtected = 1 << 1, // Just a chill as fuck, no shits given
-			Protected = 1 << 2, // Ehh will cock block the console but its legs are wide open to Set()
+			Protected = 1 << 2, // Ehh will cock block the console:: but its legs are wide open to Set()
 		};
 
 		struct CVar_Float : CVar_Base<double>

@@ -9,7 +9,7 @@
 #define NOMINMAX
 #endif // NOMINMAX
 
-namespace de::Math
+namespace de::math
 {
     template <typename T>
     constexpr T Clamp(T x, T a, T b)

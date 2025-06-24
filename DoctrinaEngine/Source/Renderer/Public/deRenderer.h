@@ -5,7 +5,7 @@
 
 #include "Renderer/Private/deRHI_D3D11.h"
 
-namespace de::Renderer
+namespace de::renderer
 {
     void Initialize(SDL_Window* window);
     void Shutdown();
@@ -14,7 +14,7 @@ namespace de::Renderer
 
     void Render();
 
-    extern RHI_D3D11 RHI;
+    extern RHI_D3D11 g_RHI;
 }
 
 

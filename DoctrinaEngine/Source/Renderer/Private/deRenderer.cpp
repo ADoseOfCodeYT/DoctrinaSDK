@@ -2,39 +2,39 @@
 
 #include "Math/Public/deMath.h"
 
-namespace de::Renderer
+namespace de::renderer
 {
-    RHI_D3D11 RHI;
+    RHI_D3D11 g_RHI;
 
     void Initialize(SDL_Window* window)
     {
-        RHI.Initialize(window, 1000.0f, 0.3f);
+        g_RHI.Initialize(window, 1000.0f, 0.3f);
     }
 
     void ResizeWindow()
     {
-        RHI.ResizeWindow();
+        g_RHI.ResizeWindow();
     }
 
     void Render()
     {
-        RHI.BeginFrame();
+        g_RHI.BeginFrame();
 
 		//3D Rendering
 
-		RHI.DisableZBuffer();
+		g_RHI.DisableZBuffer();
 
 		//2D Rendering
 
-		RHI.EnableZBuffer();
+		g_RHI.EnableZBuffer();
 
-		RHI.FinishFrame();
+		g_RHI.FinishFrame();
 
     }
 
     void Shutdown()
     {
-        RHI.Shutdown();
+        g_RHI.Shutdown();
 
     }
 }

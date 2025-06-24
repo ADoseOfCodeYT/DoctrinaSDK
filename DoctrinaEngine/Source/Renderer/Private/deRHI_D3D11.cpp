@@ -77,7 +77,7 @@ namespace de
 		if (FAILED(result))
 		{
 
-			Console::Post("[de::RHI_D3D11] FAILED : CreateDXGIFactory()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : CreateDXGIFactory()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -86,7 +86,7 @@ namespace de
 		result = dxFactory->EnumAdapters(0, &dxAdapter);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : EnumAdapters()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : EnumAdapters()", console::LogLevel::ExtremeError);
 
 
 			Initialised = false;
@@ -96,7 +96,7 @@ namespace de
 		result = dxAdapter->EnumOutputs(0, &dxAdapterOutput);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : EnumOutputs()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : EnumOutputs()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -105,7 +105,7 @@ namespace de
 		result = dxAdapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, NULL);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : GetDisplayModeList()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : GetDisplayModeList()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -114,7 +114,7 @@ namespace de
 		displayModeList = new DXGI_MODE_DESC[numModes];
 		if (!displayModeList)
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : new DXGI_MODE_DESC", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : new DXGI_MODE_DESC", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -123,7 +123,7 @@ namespace de
 		result = dxAdapterOutput->GetDisplayModeList(DXGI_FORMAT_R8G8B8A8_UNORM, DXGI_ENUM_MODES_INTERLACED, &numModes, displayModeList);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : GetDisplayModeList()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : GetDisplayModeList()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -144,7 +144,7 @@ namespace de
 		result = dxAdapter->GetDesc(&adapterDesc);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : GetDesc()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : GetDesc()", console::LogLevel::ExtremeError);
 
 
 			Initialised = false;
@@ -156,7 +156,7 @@ namespace de
 		error = wcstombs_s(&stringLength, VideoCardDesc, 128, adapterDesc.Description, 128);
 		if (error != 0)
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : wcstomb_s()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : wcstomb_s()", console::LogLevel::ExtremeError);
 
 
 			Initialised = false;
@@ -226,14 +226,14 @@ namespace de
 		result = D3D11CreateDeviceAndSwapChain(nullptr, D3D_DRIVER_TYPE_HARDWARE, nullptr, creationFlags, &featureLevel, 1, D3D11_SDK_VERSION, &swapChainDesc, &m_SwapChain, &m_Device, nullptr, &m_DeviceContext);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : D3D11CreateDeviceAndSwapChain()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : D3D11CreateDeviceAndSwapChain()", console::LogLevel::ExtremeError);
 			Initialised = false;
 			return;
 		}
 		result = m_SwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&backBufferPtr);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : GetBuffer()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : GetBuffer()", console::LogLevel::ExtremeError);
 			Initialised = false;
 			return;
 		}
@@ -243,7 +243,7 @@ namespace de
 		backBufferPtr = nullptr;
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : CreateRenderTargetView()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : CreateRenderTargetView()", console::LogLevel::ExtremeError);
 			Initialised = false;
 			return;
 		}
@@ -265,7 +265,7 @@ namespace de
 		result = m_Device->CreateTexture2D(&depthBufferDesc, nullptr, &m_DepthStencilBuffer);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : CreateTexture2D()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : CreateTexture2D()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -297,7 +297,7 @@ namespace de
 		result = m_Device->CreateDepthStencilState(&depthStencilDesc, &m_DepthStencilState);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : CreateDepthStencilState()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : CreateDepthStencilState()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -315,7 +315,7 @@ namespace de
 		result = m_Device->CreateDepthStencilView(m_DepthStencilBuffer, &depthStencilViewDesc, &m_DepthStencilView);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : CreateDepthStencilView()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : CreateDepthStencilView()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -337,7 +337,7 @@ namespace de
 		result = m_Device->CreateRasterizerState(&rasterDesc, &m_RasterState);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : CreateTexture2D()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : CreateTexture2D()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -357,11 +357,11 @@ namespace de
 		fieldOfView = 3.141592654f / 4.0f;
 		screenAspect = (float)m_WindowWidth / (float)m_WindowHeight;
 
-		ProjectionMatrix = Math::MatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
+		ProjectionMatrix = math::MatrixPerspectiveFovLH(fieldOfView, screenAspect, screenNear, screenDepth);
 
-		WorldMatrix = Math::IdentityMatrix();
+		WorldMatrix = math::IdentityMatrix();
 
-		OrthoMatrix = Math::MatrixOrthographicLH((float)m_WindowWidth, (float)m_WindowHeight, screenNear, screenDepth);
+		OrthoMatrix = math::MatrixOrthographicLH((float)m_WindowWidth, (float)m_WindowHeight, screenNear, screenDepth);
 
 		ZeroMemory(&depthDisabledStencilDesc, sizeof(depthDisabledStencilDesc));
 
@@ -384,7 +384,7 @@ namespace de
 		result = m_Device->CreateDepthStencilState(&depthDisabledStencilDesc, &m_DepthDisabledStencilState);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : CreateDepthStencilState()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : CreateDepthStencilState()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -404,7 +404,7 @@ namespace de
 		result = m_Device->CreateBlendState(&blendStateDescription, &m_AlphaBlendingState);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : CreateBlendState()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : CreateBlendState()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
@@ -415,13 +415,13 @@ namespace de
 		result = m_Device->CreateBlendState(&blendStateDescription, &m_AlphaDisabledBlendingState);
 		if (FAILED(result))
 		{
-			Console::Post("[de::RHI_D3D11] FAILED : CreateBlendState()", Console::LogLevel::ExtremeError);
+			console::Post("[de::RHI_D3D11] FAILED : CreateBlendState()", console::LogLevel::ExtremeError);
 
 			Initialised = false;
 			return;
 		}
 
-		Console::Post("[de::RHI_D3D11] Initialised", Console::LogLevel::Default);
+		console::Post("[de::RHI_D3D11] Initialised", console::LogLevel::Default);
 
 		Initialised = true;
 
@@ -497,7 +497,7 @@ namespace de
 			m_AlphaDisabledBlendingState = nullptr;
 		}
 
-		Console::Post("[de::RHI_D3D11] Shutdown", Console::LogLevel::Default);
+		console::Post("[de::RHI_D3D11] Shutdown", console::LogLevel::Default);
 	}
 
 	void RHI_D3D11::BeginFrame()

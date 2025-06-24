@@ -48,9 +48,9 @@ namespace de
 		char VideoCardDesc[128];
 		int VideoCardMemory;
 
-		Math::Matrix ProjectionMatrix;
-		Math::Matrix WorldMatrix;
-		Math::Matrix OrthoMatrix;
+		math::Matrix ProjectionMatrix;
+		math::Matrix WorldMatrix;
+		math::Matrix OrthoMatrix;
 
 	private:
 
